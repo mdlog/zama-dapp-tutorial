@@ -53,7 +53,7 @@ cd ..
 # Create .env file if it doesn't exist
 if [ ! -f .env ]; then
     echo "📝 Creating .env file..."
-    cp env.example .env
+    cp .env.example .env
     echo "⚠️  Please edit .env file and add your private key and RPC URL"
 else
     echo "✅ .env file already exists"

@@ -144,7 +144,7 @@ fi
 print_status "6. Checking environment setup..."
 
 if [ ! -f ".env" ]; then
-    print_warning ".env file not found. Please create one from env.example"
+    print_warning ".env file not found. Please create one from .env.example"
 else
     print_success ".env file found"
 fi
