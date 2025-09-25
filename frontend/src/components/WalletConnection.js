@@ -52,7 +52,7 @@ const WalletConnection = ({ onConnect }) => {
                                     symbol: 'ETH',
                                     decimals: 18,
                                 },
-                                rpcUrls: ['https://sepolia.infura.io/v3/YOUR_INFURA_KEY'],
+                                rpcUrls: ['https://eth-sepolia.public.blastapi.io'],
                                 blockExplorerUrls: ['https://sepolia.etherscan.io'],
                             }],
                         });

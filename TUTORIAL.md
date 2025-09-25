@@ -103,7 +103,7 @@ Create a `.env` file in the root directory:
 ```bash
 # .env
 PRIVATE_KEY=your_private_key_here
-SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_KEY
+SEPOLIA_RPC_URL=https://eth-sepolia.public.blastapi.io
 ```
 
 **⚠️ Important:** Never commit your private key to version control!
@@ -120,7 +120,7 @@ SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_KEY
 Add the Sepolia Testnet to your MetaMask:
 
 - **Network Name:** Sepolia Testnet
-- **RPC URL:** https://sepolia.infura.io/v3/YOUR_INFURA_KEY
+- **RPC URL:** https://eth-sepolia.public.blastapi.io
 - **Chain ID:** 11155111
 - **Currency Symbol:** ETH
 - **Block Explorer:** https://sepolia.etherscan.io
@@ -206,17 +206,9 @@ Our React frontend consists of several key components:
 This component initializes the FHEVM library and provides it to the entire app:
 
 ```javascript
-const fhevmInstance = await createInstance({
-  chainId: 11155111, // Sepolia testnet chain ID
-  publicKey: {
-    name: 'Sepolia Testnet',
-    symbol: 'ETH',
-    decimals: 18,
-    chainId: 11155111,
-    rpcUrls: ['https://sepolia.infura.io/v3/YOUR_INFURA_KEY'],
-    blockExplorerUrls: ['https://sepolia.etherscan.io'],
-  },
-});
+import { createInstance, SepoliaConfig } from '@zama-fhe/relayer-sdk';
+
+const fhevmInstance = await createInstance(SepoliaConfig);
 ```
 
 ### 2. WalletConnection (`components/WalletConnection.js`)
@@ -422,10 +414,10 @@ Now that you've built your first FHEVM dApp, here are some ideas to explore:
 
 ## 📚 Additional Resources
 
-- [FHEVM Documentation](https://docs.zama.ai/fhevm)
+- [FHEVM Documentation](https://docs.zama.ai/protocol/relayer-sdk-guides/fhevm-relayer/initialization)
 - [Zama Protocol](https://www.zama.ai/)
 - [Sepolia Testnet](https://sepolia.etherscan.io/)
-- [FHEVM GitHub](https://github.com/fhenixprotocol/fhevm)
+- [FHEVM GitHub](https://github.com/zama-ai/relayer-sdk)
 - [Zama Community](https://discord.gg/zama)
 - [Sepolia Faucet](https://sepoliafaucet.com/)
 
@@ -440,7 +432,7 @@ Found a bug or want to improve this tutorial? We'd love your help!
 
 ## 📞 Support
 
-- **Documentation**: [FHEVM Docs](https://docs.zama.ai/fhevm)
+- **Documentation**: [FHEVM Docs](https://docs.zama.ai/protocol/relayer-sdk-guides/fhevm-relayer/initialization)
 - **Community**: [Zama Discord](https://discord.gg/zama)
 - **Issues**: [GitHub Issues](https://github.com/mdlog/zama-dapp-tutorial/issues)
 - **Sepolia Faucet**: [Sepolia Faucet](https://sepoliafaucet.com/)

@@ -176,7 +176,7 @@ If you need help contributing:
 
 - **GitHub Issues**: Ask questions in the [Issues section](https://github.com/mdlog/zama-dapp-tutorial/issues)
 - **Discord**: Join the [Zama Discord](https://discord.gg/zama) community
-- **Documentation**: Check the [FHEVM docs](https://docs.zama.ai/fhevm)
+- **Documentation**: Check the [FHEVM docs](https://docs.zama.ai/protocol/relayer-sdk-guides/fhevm-relayer/initialization)
 - **Sepolia Faucet**: Get testnet tokens from [Sepolia Faucet](https://sepoliafaucet.com/)
 
 ## 📄 License

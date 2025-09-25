@@ -261,9 +261,9 @@ If your audience is technical:
 ### Follow-up Resources
 
 1. **Tutorial**: [TUTORIAL.md](./TUTORIAL.md)
-2. **Documentation**: [FHEVM Docs](https://docs.zama.ai/fhevm)
+2. **Documentation**: [FHEVM Docs](https://docs.zama.ai/protocol/relayer-sdk-guides/fhevm-relayer/initialization)
 3. **Community**: [Zama Discord](https://discord.gg/zama)
-4. **Examples**: [FHEVM Examples](https://github.com/fhenixprotocol/fhevm)
+4. **Examples**: [FHEVM Examples](https://github.com/zama-ai/relayer-sdk)
 5. **Sepolia Faucet**: [Sepolia Faucet](https://sepoliafaucet.com/)
 
 ### Next Steps

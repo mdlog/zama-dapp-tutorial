@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { createInstance } from '@fhenixprotocol/fhevm';
+import { createInstance, SepoliaConfig } from '@zama-fhe/relayer-sdk';
 import { ethers } from 'ethers';
 
 const FhevmContext = createContext();
@@ -29,18 +29,8 @@ export const FhevmProvider = ({ children }) => {
                 const ethersProvider = new ethers.BrowserProvider(window.ethereum);
                 setProvider(ethersProvider);
 
-                // Initialize FHEVM instance
-                const fhevmInstance = await createInstance({
-                    chainId: 11155111, // Sepolia testnet chain ID
-                    publicKey: {
-                        name: 'Sepolia Testnet',
-                        symbol: 'ETH',
-                        decimals: 18,
-                        chainId: 11155111,
-                        rpcUrls: ['https://sepolia.infura.io/v3/YOUR_INFURA_KEY'],
-                        blockExplorerUrls: ['https://sepolia.etherscan.io'],
-                    },
-                });
+                // Initialize FHEVM instance using SepoliaConfig
+                const fhevmInstance = await createInstance(SepoliaConfig);
 
                 setFhevm(fhevmInstance);
                 setIsInitialized(true);

@@ -172,14 +172,14 @@ For a complete step-by-step guide, see [TUTORIAL.md](./TUTORIAL.md). The tutoria
 ```bash
 # .env
 PRIVATE_KEY=your_private_key_here
-SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_KEY
+SEPOLIA_RPC_URL=https://eth-sepolia.public.blastapi.io
 ```
 
 ### Network Configuration
 
 The project is configured for:
 - **Sepolia Testnet**: Chain ID 11155111
-- **RPC URL**: https://sepolia.infura.io/v3/YOUR_INFURA_KEY
+- **RPC URL**: https://eth-sepolia.public.blastapi.io
 - **Block Explorer**: https://sepolia.etherscan.io
 
 ## 🎯 Use Cases
@@ -239,7 +239,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Documentation**: [FHEVM Docs](https://docs.zama.ai/fhevm)
+- **Documentation**: [FHEVM Docs](https://docs.zama.ai/protocol/relayer-sdk-guides/fhevm-relayer/initialization)
 - **Community**: [Zama Discord](https://discord.gg/zama)
 - **Issues**: [GitHub Issues](https://github.com/mdlog/zama-dapp-tutorial/issues)
 - **Sepolia Faucet**: [Sepolia Faucet](https://sepoliafaucet.com/)

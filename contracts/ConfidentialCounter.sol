@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@fhenixprotocol/fhevm/contracts/FHE.sol";
-import "@fhenixprotocol/fhevm/contracts/access/Permissioned.sol";
+import "@zama-fhe/relayer-sdk/contracts/FHE.sol";
+import "@zama-fhe/relayer-sdk/contracts/access/Permissioned.sol";
 
 /**
  * @title ConfidentialCounter
