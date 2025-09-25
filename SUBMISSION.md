@@ -133,7 +133,7 @@ npm install
 cd frontend && npm install && cd ..
 
 # Deploy contract
-npx hardhat run scripts/deploy.js --network fhenix
+npx hardhat run scripts/deploy.js --network sepolia
 
 # Start frontend
 cd frontend && npm start
@@ -142,7 +142,7 @@ cd frontend && npm start
 ### Verification
 ```bash
 # Verify contract on blockchain explorer
-npx hardhat run scripts/verify.js --network fhenix
+npx hardhat run scripts/verify.js --network sepolia
 ```
 
 ## 🎯 Educational Value
@@ -262,7 +262,7 @@ npx hardhat run scripts/verify.js --network fhenix
 ## 🙏 Acknowledgments
 
 - **Zama Team**: For building FHEVM and the Zama Protocol
-- **Fhenix Team**: For providing the testnet infrastructure
+- **Sepolia Team**: For providing the testnet infrastructure
 - **Community**: For feedback and contributions
 - **Open Source**: For the tools and libraries that made this possible
 

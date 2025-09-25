@@ -121,9 +121,9 @@ npm test -- --coverage
 
 ### Manual Testing
 
-1. **Deploy the contract** to Fhenix testnet
+1. **Deploy the contract** to Sepolia testnet
 2. **Test the frontend** with different scenarios
-3. **Verify privacy** by checking blockchain explorer
+3. **Verify privacy** by checking Etherscan
 4. **Test with multiple accounts** to ensure privacy
 
 ## 📝 Pull Request Guidelines
@@ -177,6 +177,7 @@ If you need help contributing:
 - **GitHub Issues**: Ask questions in the Issues section
 - **Discord**: Join the [Zama Discord](https://discord.gg/zama) community
 - **Documentation**: Check the [FHEVM docs](https://docs.zama.ai/fhevm)
+- **Sepolia Faucet**: Get testnet tokens from [Sepolia Faucet](https://sepoliafaucet.com/)
 
 ## 📄 License
 

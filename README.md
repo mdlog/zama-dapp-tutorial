@@ -170,7 +170,7 @@ For a complete step-by-step guide, see [TUTORIAL.md](./TUTORIAL.md). The tutoria
 ```bash
 # .env
 PRIVATE_KEY=your_private_key_here
-FHENIX_RPC_URL=https://api.testnet.fhenix.zone:7747
+SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_KEY
 ```
 
 ### Network Configuration
@@ -232,7 +232,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - **Zama Team** for building FHEVM and the Zama Protocol
-- **Fhenix Team** for providing the testnet infrastructure
+- **Sepolia Team** for providing the testnet infrastructure
 - **Community** for feedback and contributions
 
 ## 📞 Support
@@ -240,6 +240,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Documentation**: [FHEVM Docs](https://docs.zama.ai/fhevm)
 - **Community**: [Zama Discord](https://discord.gg/zama)
 - **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
+- **Sepolia Faucet**: [Sepolia Faucet](https://sepoliafaucet.com/)
 
 ## 🏆 Zama Bounty Program
 

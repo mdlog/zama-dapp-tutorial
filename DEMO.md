@@ -39,8 +39,8 @@ By the end of this demo, your audience should understand:
 # Show the smart contract code
 cat contracts/ConfidentialCounter.sol
 
-# Deploy to Fhenix testnet
-npx hardhat run scripts/deploy.js --network fhenix
+# Deploy to Sepolia testnet
+npx hardhat run scripts/deploy.js --network sepolia
 ```
 
 **Key points to highlight:**
@@ -122,10 +122,10 @@ cd hello-fhevm-tutorial
 # Edit .env with your private key
 
 # 3. Get testnet tokens
-# Visit: https://faucet.testnet.fhenix.zone/
+# Visit: https://sepoliafaucet.com/
 
 # 4. Deploy contract
-npx hardhat run scripts/deploy.js --network fhenix
+npx hardhat run scripts/deploy.js --network sepolia
 
 # 5. Start frontend
 cd frontend && npm start
@@ -241,7 +241,7 @@ If your audience is technical:
 **Solution**: Check private key, RPC URL, and testnet tokens
 
 **Problem**: Frontend won't connect
-**Solution**: Verify MetaMask is on Fhenix testnet
+**Solution**: Verify MetaMask is on Sepolia testnet
 
 **Problem**: Transaction fails
 **Solution**: Check gas limits and account balance
@@ -264,6 +264,7 @@ If your audience is technical:
 2. **Documentation**: [FHEVM Docs](https://docs.zama.ai/fhevm)
 3. **Community**: [Zama Discord](https://discord.gg/zama)
 4. **Examples**: [FHEVM Examples](https://github.com/fhenixprotocol/fhevm)
+5. **Sepolia Faucet**: [Sepolia Faucet](https://sepoliafaucet.com/)
 
 ### Next Steps
 

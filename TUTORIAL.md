@@ -103,27 +103,27 @@ Create a `.env` file in the root directory:
 ```bash
 # .env
 PRIVATE_KEY=your_private_key_here
-FHENIX_RPC_URL=https://api.testnet.fhenix.zone:7747
+SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_KEY
 ```
 
 **⚠️ Important:** Never commit your private key to version control!
 
 ### Step 3: Get Testnet Tokens
 
-1. Visit the [Fhenix Faucet](https://faucet.testnet.fhenix.zone/)
+1. Visit the [Sepolia Faucet](https://sepoliafaucet.com/)
 2. Connect your MetaMask wallet
-3. Request testnet tokens (tFHE)
+3. Request testnet tokens (ETH)
 4. You'll need these tokens to deploy and interact with your contract
 
 ### Step 4: Configure MetaMask
 
-Add the Fhenix Testnet to your MetaMask:
+Add the Sepolia Testnet to your MetaMask:
 
-- **Network Name:** Fhenix Testnet
-- **RPC URL:** https://api.testnet.fhenix.zone:7747
-- **Chain ID:** 42069
-- **Currency Symbol:** tFHE
-- **Block Explorer:** https://testnet.fhenix.zone
+- **Network Name:** Sepolia Testnet
+- **RPC URL:** https://sepolia.infura.io/v3/YOUR_INFURA_KEY
+- **Chain ID:** 11155111
+- **Currency Symbol:** ETH
+- **Block Explorer:** https://sepolia.etherscan.io
 
 ## 📝 Building the Smart Contract
 
@@ -207,14 +207,14 @@ This component initializes the FHEVM library and provides it to the entire app:
 
 ```javascript
 const fhevmInstance = await createInstance({
-  chainId: 42069, // Fhenix testnet chain ID
+  chainId: 11155111, // Sepolia testnet chain ID
   publicKey: {
-    name: 'Fhenix Testnet',
-    symbol: 'tFHE',
+    name: 'Sepolia Testnet',
+    symbol: 'ETH',
     decimals: 18,
-    chainId: 42069,
-    rpcUrls: ['https://api.testnet.fhenix.zone:7747'],
-    blockExplorerUrls: ['https://testnet.fhenix.zone'],
+    chainId: 11155111,
+    rpcUrls: ['https://sepolia.infura.io/v3/YOUR_INFURA_KEY'],
+    blockExplorerUrls: ['https://sepolia.etherscan.io'],
   },
 });
 ```
@@ -227,10 +227,10 @@ Handles MetaMask connection and network switching:
 // Request account access
 await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-// Switch to Fhenix testnet
+// Switch to Sepolia testnet
 await window.ethereum.request({
   method: 'wallet_switchEthereumChain',
-  params: [{ chainId: '0xa455' }], // 42069 in hex
+  params: [{ chainId: '0xaa36a7' }], // 11155111 in hex
 });
 ```
 
@@ -263,14 +263,14 @@ const addToCounter = async () => {
 npx hardhat compile
 ```
 
-### Step 2: Deploy to Fhenix Testnet
+### Step 2: Deploy to Sepolia Testnet
 
 ```bash
-npx hardhat run scripts/deploy.js --network fhenix
+npx hardhat run scripts/deploy.js --network sepolia
 ```
 
 This will:
-- Deploy your contract to Fhenix testnet
+- Deploy your contract to Sepolia testnet
 - Save the contract address to `frontend/src/contract-info.json`
 - Display deployment information
 
@@ -304,7 +304,7 @@ The app will open at `http://localhost:3000`
 
 ### Test Scenario 3: Privacy Verification
 
-1. **Check the transaction on the blockchain explorer**
+1. **Check the transaction on Etherscan**
 2. **Notice that the input data is encrypted**
 3. **Confirm that you can't see individual values**
 4. **Verify that only the total is decrypted**
@@ -424,9 +424,10 @@ Now that you've built your first FHEVM dApp, here are some ideas to explore:
 
 - [FHEVM Documentation](https://docs.zama.ai/fhevm)
 - [Zama Protocol](https://www.zama.ai/)
-- [Fhenix Testnet](https://testnet.fhenix.zone/)
+- [Sepolia Testnet](https://sepolia.etherscan.io/)
 - [FHEVM GitHub](https://github.com/fhenixprotocol/fhevm)
 - [Zama Community](https://discord.gg/zama)
+- [Sepolia Faucet](https://sepoliafaucet.com/)
 
 ## 🤝 Contributing
 
@@ -437,6 +438,13 @@ Found a bug or want to improve this tutorial? We'd love your help!
 3. Make your changes
 4. Submit a pull request
 
+## 📞 Support
+
+- **Documentation**: [FHEVM Docs](https://docs.zama.ai/fhevm)
+- **Community**: [Zama Discord](https://discord.gg/zama)
+- **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
+- **Sepolia Faucet**: [Sepolia Faucet](https://sepoliafaucet.com/)
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -444,7 +452,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - **Zama Team** for building FHEVM and the Zama Protocol
-- **Fhenix Team** for providing the testnet infrastructure
+- **Sepolia Team** for providing the testnet infrastructure
 - **Community** for feedback and contributions
 
 ---
