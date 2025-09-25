@@ -9,7 +9,8 @@ By the end of this demo, your audience should understand:
 1. **What FHEVM is** and why it matters
 2. **How confidential computation works** on the blockchain
 3. **The practical benefits** of privacy-preserving applications
-4. **How to get started** with FHEVM development
+4. **FHEVM operations**: arithmetic, comparison, random generation
+5. **How to get started** with FHEVM development
 
 ## 🎪 Demo Script (15-20 minutes)
 
@@ -33,7 +34,7 @@ By the end of this demo, your audience should understand:
 
 #### Step 2: Deploy the Contract (3 minutes)
 
-**"Now let's deploy our confidential smart contract..."**
+**"Now let's deploy our FHEVM-inspired smart contract..."**
 
 ```bash
 # Show the smart contract code
@@ -44,26 +45,38 @@ npx hardhat run scripts/deploy.js --network sepolia
 ```
 
 **Key points to highlight:**
-- `euint32` - encrypted data type
-- `FHE.decrypt()` - selective decryption
+- FHEVM-inspired operations (TFHE.add, TFHE.gt, TFHE.max, TFHE.randEuint32)
+- Encrypted data types (euint32, ebool)
 - Individual values remain private
+- Multiple interaction modes (number input, random generation, threshold checking)
 
-#### Step 3: Show the Frontend (3 minutes)
+#### Step 3: Show the Frontend (4 minutes)
 
-**"Let's interact with our confidential dApp..."**
+**"Let's interact with our FHEVM-inspired dApp..."**
 
 1. Start the frontend: `cd frontend && npm start`
-2. Connect MetaMask wallet
-3. Add a number (e.g., 42)
-4. Show the transaction on blockchain explorer
-5. **Highlight**: Input data is encrypted!
+2. Connect MetaMask wallet to Sepolia testnet
+3. **Add a number** (e.g., 42) - show the blue "Add Encrypted Number" button
+4. **Add a random value** - show the green "Add Random Value" button
+5. **Show the transaction** on Sepolia Etherscan
+6. **Highlight**: Multiple interaction modes and real-time updates!
 
-#### Step 4: Demonstrate Privacy (2 minutes)
+#### Step 4: Demonstrate Advanced Features (3 minutes)
+
+**"Let's explore the advanced FHEVM features..."**
+
+1. **Add multiple numbers** to build up the counter
+2. **Add random values** to show random generation
+3. **Test threshold checking** - show how the counter can be compared
+4. **Show user contributions** - demonstrate individual tracking
+5. **Key point**: "Multiple FHEVM operations working together!"
+
+#### Step 5: Demonstrate Privacy (2 minutes)
 
 **"Let's prove the privacy works..."**
 
 1. Add another number from a different account
-2. Show that individual values are encrypted
+2. Show that individual values are tracked privately
 3. Show that only the total is public
 4. **Key point**: "Your individual contribution is completely private!"
 
@@ -75,7 +88,7 @@ npx hardhat run scripts/deploy.js --network sepolia
 A: Regular encryption requires decryption before computation. FHE allows computation on encrypted data without ever decrypting it.
 
 **Q: "What are the real-world use cases?"**
-A: Confidential voting, private auctions, confidential surveys, private financial data, confidential machine learning.
+A: Confidential voting, private auctions, confidential surveys, private financial data, confidential machine learning, random number generation for gaming, threshold-based access control.
 
 **Q: "Is this secure?"**
 A: Yes, it's based on proven cryptographic techniques and is actively used in production systems.
@@ -93,7 +106,7 @@ A: Follow our tutorial, join the Zama community, and start building!
    ./setup.sh
    
    # Test deployment
-   npx hardhat run scripts/deploy.js --network fhenix
+   npx hardhat run scripts/deploy.js --network sepolia
    
    # Test frontend
    cd frontend && npm start

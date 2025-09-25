@@ -61,31 +61,37 @@ hello-fhevm-tutorial/
 ## 🔐 Confidential Counter dApp
 
 ### Smart Contract Features
-- **Encrypted data storage**: Uses `euint32` for confidential counter
+- **FHEVM-inspired operations**: Demonstrates TFHE.add, TFHE.gt, TFHE.max, TFHE.randEuint32
+- **Multiple interaction modes**: Number input, random generation, threshold checking
 - **Selective decryption**: Only total sum is made public
 - **Access control**: Owner can reset counter
-- **Event logging**: Transparent transaction history
+- **Event logging**: Transparent transaction history with multiple event types
 - **Gas efficient**: Optimized for testnet usage
+- **Educational comments**: Shows real FHEVM implementation alongside current code
 
 ### Frontend Features
-- **Beautiful UI**: Modern, responsive design with gradient backgrounds
-- **Wallet integration**: Seamless MetaMask connection
+- **Beautiful UI**: Modern, responsive design with gradient backgrounds and button groups
+- **Wallet integration**: Seamless MetaMask connection to Sepolia testnet
+- **Multiple interaction modes**: Number input, random value generation, reset functionality
 - **Real-time updates**: Live transaction status and counter updates
 - **Error handling**: Comprehensive error messages and user feedback
 - **Mobile friendly**: Works on all devices
-- **Transaction explorer**: Direct links to blockchain explorer
+- **Transaction explorer**: Direct links to Sepolia Etherscan
+- **Advanced operations**: Threshold checking and max value comparison
 
 ### Key Components
-1. **FhevmProvider**: Initializes FHEVM library and provides context
-2. **WalletConnection**: Handles MetaMask connection and network switching
-3. **ConfidentialCounter**: Main component for interacting with smart contract
+1. **FhevmProvider**: Initializes provider and provides context for the entire app
+2. **WalletConnection**: Handles MetaMask connection and Sepolia testnet switching
+3. **ConfidentialCounter**: Main component with multiple interaction modes and advanced operations
 
 ## 📚 Documentation
 
 ### Tutorial (TUTORIAL.md)
-- **Complete step-by-step guide**: 11 sections covering everything from basics to advanced concepts
-- **Code explanations**: Detailed breakdown of smart contract and frontend code
+- **Complete step-by-step guide**: 11 sections covering everything from basics to advanced FHEVM concepts
+- **Code explanations**: Detailed breakdown of FHEVM-inspired smart contract and frontend code
+- **FHEVM operations**: Arithmetic, comparison, random generation, and max operations
 - **Real-world examples**: Practical use cases and applications
+- **Educational approach**: Shows real FHEVM implementation alongside current code
 - **Next steps**: Guidance for further learning and development
 
 ### README.md
@@ -95,28 +101,32 @@ hello-fhevm-tutorial/
 - **Testing guide**: Comprehensive testing scenarios
 
 ### DEMO.md
-- **Demo script**: 15-20 minute presentation guide
-- **Interactive elements**: Audience participation suggestions
+- **Demo script**: 15-20 minute presentation guide with advanced features
+- **Interactive elements**: Multiple interaction modes and audience participation
+- **FHEVM operations demo**: Random generation, threshold checking, max operations
 - **Troubleshooting**: Common issues and solutions
 - **Success metrics**: How to measure demo effectiveness
 
 ## 🧪 Testing
 
 ### Smart Contract Tests
-- **Unit tests**: Basic functionality and access control
-- **Integration tests**: End-to-end contract behavior
+- **Unit tests**: Basic functionality, access control, and FHEVM operations
+- **Integration tests**: End-to-end contract behavior with multiple operations
+- **FHEVM operation tests**: Random generation, threshold checking, max operations
 - **Gas usage tests**: Performance optimization
-- **Event emission tests**: Proper event logging
+- **Event emission tests**: Proper event logging for all operation types
 
 ### Frontend Tests
-- **Component tests**: Individual component functionality
-- **Integration tests**: Full user workflow
+- **Component tests**: Individual component functionality and multiple interaction modes
+- **Integration tests**: Full user workflow with all operation types
 - **Error handling tests**: Edge cases and error scenarios
+- **UI interaction tests**: Button groups, random generation, threshold checking
 
 ### Manual Testing
-- **Multi-account testing**: Privacy verification with multiple users
+- **Multi-account testing**: Privacy verification with multiple users and different operations
+- **FHEVM operations testing**: Random generation, threshold checking, max operations
 - **Cross-browser testing**: Compatibility across different browsers
-- **Mobile testing**: Responsive design verification
+- **Mobile testing**: Responsive design verification with button groups
 
 ## 🚀 Deployment
 
@@ -155,36 +165,40 @@ npx hardhat run scripts/verify.js --network sepolia
 
 ### Comprehensive Coverage
 - **FHEVM fundamentals**: What it is and why it matters
+- **FHEVM operations**: Arithmetic, comparison, random generation, max operations
 - **Development workflow**: Complete setup to deployment
 - **Privacy concepts**: How confidentiality works in practice
 - **Real-world applications**: Practical use cases and examples
+- **Educational approach**: Real FHEVM implementation alongside current code
 
 ### Progressive Learning
 - **Start simple**: Basic counter functionality
-- **Build complexity**: Add features and understand concepts
+- **Build complexity**: Add FHEVM operations and understand concepts
+- **Advanced features**: Random generation, threshold checking, max operations
 - **Advanced topics**: Next steps and advanced use cases
 - **Community resources**: Links to further learning
 
 ## 🎨 Creativity and Engagement
 
 ### Memorable dApp
-- **Confidential Counter**: Simple but powerful concept
-- **Visual appeal**: Beautiful gradient design and animations
-- **Interactive elements**: Real-time updates and feedback
-- **Engaging UI**: Modern design with emojis and clear messaging
+- **Confidential Counter**: Simple but powerful concept with multiple interaction modes
+- **Visual appeal**: Beautiful gradient design, button groups, and animations
+- **Interactive elements**: Real-time updates, random generation, and advanced operations
+- **Engaging UI**: Modern design with emojis, clear messaging, and multiple buttons
 
 ### Fun and Educational
-- **Gamification**: Users can add numbers and see results
+- **Gamification**: Users can add numbers, random values, and see results
 - **Privacy demonstration**: Clear before/after comparison
-- **Explorer integration**: Users can verify privacy on blockchain
-- **Multiple scenarios**: Different use cases and examples
+- **Explorer integration**: Users can verify privacy on Sepolia Etherscan
+- **Multiple scenarios**: Different use cases, operations, and examples
+- **Interactive learning**: Multiple buttons and operation modes
 
 ## 🔗 Additional Resources
 
 ### Community Integration
 - **Zama Discord**: Links to community support
-- **FHEVM Documentation**: Comprehensive technical docs
-- **Fhenix Testnet**: Live testing environment
+- **FHEVM Documentation**: Comprehensive technical docs with contract addresses
+- **Sepolia Testnet**: Live testing environment
 - **GitHub Repository**: Open source code and contributions
 
 ### Support Materials

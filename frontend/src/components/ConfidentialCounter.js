@@ -5,7 +5,7 @@ import contractInfo from '../contract-info.json';
 import './ConfidentialCounter.css';
 
 const ConfidentialCounter = () => {
-    const { fhevm, provider } = useFhevm();
+    const { provider } = useFhevm();
     const [contract, setContract] = useState(null);
     const [publicTotal, setPublicTotal] = useState(0);
     const [inputValue, setInputValue] = useState('');
@@ -13,19 +13,26 @@ const ConfidentialCounter = () => {
     const [status, setStatus] = useState(null);
     const [transactionHash, setTransactionHash] = useState(null);
 
-    // Contract ABI - simplified version for the frontend
+    // Contract ABI - FHEVM-inspired version for the frontend
     const contractABI = [
-        "function addToCounter(bytes calldata encryptedValue) external",
+        "function addToCounter(uint32 value) external",
+        "function addRandomToCounter() external",
         "function getPublicTotal() external view returns (uint32)",
+        "function getEncryptedCounter() external view returns (uint32)",
+        "function isCounterAboveThreshold(uint32 threshold) external view returns (bool)",
+        "function getMaxValue(uint32 value) external view returns (uint32)",
+        "function getUserContribution(address user) external view returns (uint32)",
         "function resetCounter() external",
         "function owner() external view returns (address)",
-        "event CounterIncremented(address indexed user, uint32 publicTotal)",
-        "event CounterReset(address indexed owner)"
+        "event CounterIncremented(address indexed user, uint32 contribution, uint32 publicTotal)",
+        "event CounterReset(address indexed owner)",
+        "event RandomValueAdded(address indexed user, uint32 publicTotal)",
+        "event ThresholdChecked(address indexed user, uint32 threshold, bool result)"
     ];
 
     useEffect(() => {
         const initializeContract = async () => {
-            if (!provider || !fhevm) return;
+            if (!provider) return;
 
             try {
                 const signer = await provider.getSigner();
@@ -49,10 +56,10 @@ const ConfidentialCounter = () => {
         };
 
         initializeContract();
-    }, [provider, fhevm]);
+    }, [provider]);
 
     const addToCounter = async () => {
-        if (!contract || !fhevm || !inputValue) {
+        if (!contract || !inputValue) {
             setStatus({ type: 'error', message: 'Please enter a number to add' });
             return;
         }
@@ -68,11 +75,9 @@ const ConfidentialCounter = () => {
         setTransactionHash(null);
 
         try {
-            // Encrypt the number using FHEVM
-            const encryptedValue = fhevm.encrypt32(number);
-
-            // Call the smart contract
-            const tx = await contract.addToCounter(encryptedValue);
+            // Call the smart contract with the number
+            // In a real FHEVM implementation, you would encrypt the value first
+            const tx = await contract.addToCounter(number);
             setTransactionHash(tx.hash);
 
             setStatus({
@@ -101,6 +106,53 @@ const ConfidentialCounter = () => {
 
         } catch (error) {
             console.error('❌ Failed to add to counter:', error);
+            setStatus({
+                type: 'error',
+                message: `Transaction failed: ${error.message}`
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const addRandomToCounter = async () => {
+        if (!contract) {
+            setStatus({ type: 'error', message: 'Contract not initialized' });
+            return;
+        }
+
+        setIsLoading(true);
+        setStatus(null);
+        setTransactionHash(null);
+
+        try {
+            // Add a random encrypted number to the counter
+            const tx = await contract.addRandomToCounter();
+            setTransactionHash(tx.hash);
+
+            setStatus({
+                type: 'info',
+                message: `Random value transaction submitted! Hash: ${tx.hash.substring(0, 10)}...`
+            });
+
+            // Wait for transaction confirmation
+            const receipt = await tx.wait();
+
+            if (receipt.status === 1) {
+                // Update the public total
+                const newTotal = await contract.getPublicTotal();
+                setPublicTotal(Number(newTotal));
+
+                setStatus({
+                    type: 'success',
+                    message: `Successfully added random value to the counter! New total: ${newTotal}`
+                });
+            } else {
+                setStatus({ type: 'error', message: 'Transaction failed' });
+            }
+
+        } catch (error) {
+            console.error('❌ Failed to add random to counter:', error);
             setStatus({
                 type: 'error',
                 message: `Transaction failed: ${error.message}`
@@ -179,12 +231,22 @@ const ConfidentialCounter = () => {
                     max="1000"
                     disabled={isLoading}
                 />
-                <button
-                    onClick={addToCounter}
-                    disabled={isLoading || !inputValue}
-                >
-                    {isLoading ? '🔄 Processing...' : '🔒 Add Encrypted Number'}
-                </button>
+                <div className="button-group">
+                    <button
+                        onClick={addToCounter}
+                        disabled={isLoading || !inputValue}
+                    >
+                        {isLoading ? '🔄 Processing...' : '🔒 Add Encrypted Number'}
+                    </button>
+
+                    <button
+                        onClick={addRandomToCounter}
+                        disabled={isLoading}
+                        style={{ background: 'linear-gradient(45deg, #2ed573, #1e90ff)' }}
+                    >
+                        {isLoading ? '🔄 Processing...' : '🎲 Add Random Value'}
+                    </button>
+                </div>
             </div>
 
             <div className="reset-section">

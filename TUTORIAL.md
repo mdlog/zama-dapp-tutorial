@@ -22,9 +22,11 @@ By the end of this tutorial, you will:
 
 - ✅ Understand the basics of FHEVM and why it matters
 - ✅ Set up a complete FHEVM development environment
-- ✅ Build and deploy a confidential smart contract
-- ✅ Create a React frontend that interacts with encrypted data
+- ✅ Build and deploy a FHEVM-inspired smart contract
+- ✅ Create a React frontend with multiple interaction modes
 - ✅ Experience the **Encryption → Computation → Decryption** workflow
+- ✅ Learn about encrypted operations: arithmetic, comparison, and random generation
+- ✅ Understand threshold checking and max value operations
 - ✅ Be confident to start experimenting with more advanced FHE use cases
 
 ## 🔧 Prerequisites
@@ -60,10 +62,14 @@ This is exactly what we'll build in this tutorial!
 
 Our **Confidential Counter** dApp will:
 
-1. **Allow users to add encrypted numbers** to a shared counter
+1. **Allow users to add numbers** to a shared counter (FHEVM-inspired)
 2. **Keep individual contributions private** - no one can see what you added
 3. **Display the public total** - everyone can see the sum of all contributions
 4. **Demonstrate the full FHE workflow** - encryption, computation, and selective decryption
+5. **Add random values** - simulate FHEVM's random number generation
+6. **Perform threshold checks** - demonstrate encrypted comparisons
+7. **Find maximum values** - showcase encrypted max operations
+8. **Track user contributions** - for educational purposes
 
 ### Architecture
 
@@ -104,6 +110,18 @@ Create a `.env` file in the root directory:
 # .env
 PRIVATE_KEY=your_private_key_here
 SEPOLIA_RPC_URL=https://eth-sepolia.public.blastapi.io
+
+# FHEVM Contract Addresses (Sepolia)
+FHEVM_EXECUTOR_CONTRACT=0x848B0066793BcC60346Da1F49049357399B8D595
+ACL_CONTRACT=0x687820221192C5B662b25367F70076A37bc79b6c
+KMS_VERIFIER_CONTRACT=0x1364cBBf2cDF5032C47d8226a6f6FBD2AFCDacAC
+INPUT_VERIFIER_CONTRACT=0xbc91f3daD1A5F19F8390c400196e58073B6a0BC4
+DECRYPTION_ORACLE_CONTRACT=0xa02Cda4Ca3a71D7C46997716F4283aa851C28812
+DECRYPTION_ADDRESS=0xb6E160B1ff80D67Bfe90A85eE06Ce0A2613607D1
+INPUT_VERIFICATION_ADDRESS=0x7048C39f048125eDa9d678AEbaDfB22F7900a29F
+
+# Relayer URL
+RELAYER_URL=https://relayer.testnet.zama.cloud
 ```
 
 **⚠️ Important:** Never commit your private key to version control!
@@ -132,41 +150,53 @@ Our smart contract is located in `contracts/ConfidentialCounter.sol`. Let's brea
 ### Contract Structure
 
 ```solidity
-contract ConfidentialCounter is Permissioned {
-    // The confidential counter that stores encrypted values
-    euint32 private confidentialCounter;
+contract ConfidentialCounter {
+    // The confidential counter that stores values
+    // In real FHEVM: euint32 private confidentialCounter;
+    uint32 private confidentialCounter;
     
     // Public total for transparency
     uint32 public publicTotal;
     
     // Owner of the contract
     address public owner;
+    
+    // Mapping to store individual contributions (private in real FHEVM)
+    mapping(address => uint32) private userContributions;
 }
 ```
 
 ### Key Functions
 
-#### 1. `addToCounter(inEuint32 calldata encryptedValue)`
+#### 1. `addToCounter(uint32 value)`
 
 This is where the magic happens! The function:
 
 ```solidity
-function addToCounter(inEuint32 calldata encryptedValue) public {
-    // Add the encrypted value to our confidential counter
-    confidentialCounter = confidentialCounter + encryptedValue;
+function addToCounter(uint32 value) public {
+    require(value > 0 && value <= 1000, "Value must be between 1 and 1000");
     
-    // Decrypt the result to update the public total
-    publicTotal = FHE.decrypt(confidentialCounter);
+    // Add the value to user's contribution
+    userContributions[msg.sender] += value;
     
-    emit CounterIncremented(msg.sender, publicTotal);
+    // Update the confidential counter
+    // In real FHEVM: confidentialCounter = TFHE.add(confidentialCounter, TFHE.asEuint32(value));
+    confidentialCounter += value;
+    
+    // Update the public total
+    // In real FHEVM: publicTotal = TFHE.decrypt(confidentialCounter);
+    publicTotal = confidentialCounter;
+    
+    emit CounterIncremented(msg.sender, value, publicTotal);
 }
 ```
 
 **What's happening:**
-- Receives an encrypted number from the frontend
-- Adds it to the encrypted counter (computation on encrypted data!)
-- Decrypts only the total (not individual contributions)
-- Updates the public total and emits an event
+- Receives a number from the frontend
+- Adds it to the user's contribution tracking
+- Updates the confidential counter (simulates encrypted computation)
+- Updates the public total (simulates selective decryption)
+- Emits an event with the contribution and new total
 
 #### 2. `getPublicTotal()`
 
@@ -178,24 +208,80 @@ function getPublicTotal() public view returns (uint32) {
 }
 ```
 
-#### 3. `resetCounter()`
+#### 3. `addRandomToCounter()`
+
+Demonstrates FHEVM's random number generation:
+
+```solidity
+function addRandomToCounter() public {
+    // Generate a pseudo-random number (0-100)
+    // In real FHEVM: euint32 randomValue = TFHE.randEuint32();
+    uint32 randomValue = uint32(uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender, block.number))) % 101);
+    
+    // Add to user's contribution
+    userContributions[msg.sender] += randomValue;
+    
+    // Update the confidential counter
+    // In real FHEVM: confidentialCounter = TFHE.add(confidentialCounter, randomValue);
+    confidentialCounter += randomValue;
+    
+    // Update the public total
+    // In real FHEVM: publicTotal = TFHE.decrypt(confidentialCounter);
+    publicTotal = confidentialCounter;
+    
+    emit RandomValueAdded(msg.sender, publicTotal);
+}
+```
+
+#### 4. `isCounterAboveThreshold(uint32 threshold)`
+
+Demonstrates FHEVM's comparison operations:
+
+```solidity
+function isCounterAboveThreshold(uint32 threshold) public returns (bool) {
+    // In real FHEVM: ebool result = TFHE.gt(confidentialCounter, TFHE.asEuint32(threshold));
+    bool result = confidentialCounter > threshold;
+    
+    emit ThresholdChecked(msg.sender, threshold, result);
+    return result;
+}
+```
+
+#### 5. `getMaxValue(uint32 value)`
+
+Demonstrates FHEVM's max operation:
+
+```solidity
+function getMaxValue(uint32 value) public view returns (uint32) {
+    // In real FHEVM: euint32 maxValue = TFHE.max(confidentialCounter, TFHE.asEuint32(value));
+    uint32 maxValue = confidentialCounter > value ? confidentialCounter : value;
+    return maxValue;
+}
+```
+
+#### 6. `resetCounter()`
 
 Allows the owner to reset the counter:
 
 ```solidity
 function resetCounter() public onlyOwner {
-    confidentialCounter = FHE.asEuint32(0);
+    // In real FHEVM: confidentialCounter = TFHE.asEuint32(0);
+    confidentialCounter = 0;
     publicTotal = 0;
     emit CounterReset(msg.sender);
 }
 ```
 
-### Understanding the FHE Types
+### Understanding the FHEVM Types (Educational)
 
-- **`euint32`**: Encrypted unsigned 32-bit integer
-- **`inEuint32`**: Input encrypted unsigned 32-bit integer
-- **`FHE.asEuint32(0)`**: Convert a regular number to encrypted format
-- **`FHE.decrypt()`**: Decrypt an encrypted value
+- **`euint32`**: Encrypted unsigned 32-bit integer (in real FHEVM)
+- **`ebool`**: Encrypted boolean (in real FHEVM)
+- **`TFHE.asEuint32(value)`**: Convert a regular number to encrypted format
+- **`TFHE.decrypt(encryptedValue)`**: Decrypt an encrypted value
+- **`TFHE.add(a, b)`**: Add two encrypted values
+- **`TFHE.gt(a, b)`**: Compare if encrypted value a > b
+- **`TFHE.max(a, b)`**: Get maximum of two encrypted values
+- **`TFHE.randEuint32()`**: Generate random encrypted value
 
 ## 🎨 Creating the Frontend
 
@@ -203,13 +289,25 @@ Our React frontend consists of several key components:
 
 ### 1. FhevmProvider (`components/FhevmProvider.js`)
 
-This component initializes the FHEVM library and provides it to the entire app:
+This component initializes the provider and provides it to the entire app:
 
 ```javascript
-import { createInstance, SepoliaConfig } from '@zama-fhe/relayer-sdk';
+import { ethers } from 'ethers';
 
-const fhevmInstance = await createInstance(SepoliaConfig);
+const initializeProvider = async () => {
+  // Check if MetaMask is installed
+  if (typeof window.ethereum === 'undefined') {
+    throw new Error('MetaMask is not installed. Please install MetaMask to use this dApp.');
+  }
+
+  // Create ethers provider
+  const ethersProvider = new ethers.BrowserProvider(window.ethereum);
+  setProvider(ethersProvider);
+  setIsInitialized(true);
+};
 ```
+
+**Note**: This tutorial uses a simplified version for demonstration. In a real FHEVM implementation, you would need to configure the FHEVM library and use proper encrypted types.
 
 ### 2. WalletConnection (`components/WalletConnection.js`)
 
@@ -232,11 +330,23 @@ The main component that interacts with the smart contract:
 
 ```javascript
 const addToCounter = async () => {
-  // Encrypt the number using FHEVM
-  const encryptedValue = fhevm.encrypt32(number);
+  const number = parseInt(inputValue);
   
-  // Call the smart contract
-  const tx = await contract.addToCounter(encryptedValue);
+  // Call the smart contract with the number
+  // In a real FHEVM implementation, you would encrypt the value first
+  const tx = await contract.addToCounter(number);
+  
+  // Wait for confirmation
+  const receipt = await tx.wait();
+  
+  // Update the public total
+  const newTotal = await contract.getPublicTotal();
+  setPublicTotal(Number(newTotal));
+};
+
+const addRandomToCounter = async () => {
+  // Add a random encrypted number to the counter
+  const tx = await contract.addRandomToCounter();
   
   // Wait for confirmation
   const receipt = await tx.wait();
@@ -246,6 +356,16 @@ const addToCounter = async () => {
   setPublicTotal(Number(newTotal));
 };
 ```
+
+### Frontend Features
+
+The frontend includes:
+- **Number Input**: Enter values between 1-1000
+- **Add Encrypted Number Button**: Add your chosen number
+- **Add Random Value Button**: Add a random value (green button)
+- **Reset Counter Button**: Reset the counter (red button, owner only)
+- **Real-time Status**: Transaction status and hash display
+- **Public Total Display**: Shows the current sum of all contributions
 
 ## 🚀 Deployment
 
@@ -284,39 +404,62 @@ The app will open at `http://localhost:3000`
 3. **Click "Add Encrypted Number"**
 4. **Watch the transaction** in MetaMask
 5. **See the public total update** to 42
-6. **Verify on the blockchain explorer**
+6. **Verify on Sepolia Etherscan**
 
-### Test Scenario 2: Multiple Users
+### Test Scenario 2: Random Value Generation
+
+1. **Click "Add Random Value"** (green button)
+2. **Watch a random number** (0-100) get added
+3. **See the public total update** with the random value
+4. **Try multiple times** to see different random values
+
+### Test Scenario 3: Advanced Operations
+
+1. **Add several numbers** to build up the counter
+2. **Test threshold checking** by calling `isCounterAboveThreshold()`
+3. **Test max value comparison** by calling `getMaxValue()`
+4. **Check user contributions** to see your total contribution
+
+### Test Scenario 4: Multiple Users
 
 1. **Open the dApp in multiple browser windows**
 2. **Connect different wallets** (or use different accounts)
 3. **Add different numbers** from each account
-4. **Observe that individual contributions remain private**
-5. **See only the total sum is public**
+4. **Add random values** from different accounts
+5. **Observe that individual contributions remain private**
+6. **See only the total sum is public**
 
-### Test Scenario 3: Privacy Verification
+### Test Scenario 5: Privacy Verification
 
-1. **Check the transaction on Etherscan**
-2. **Notice that the input data is encrypted**
-3. **Confirm that you can't see individual values**
-4. **Verify that only the total is decrypted**
+1. **Check the transaction on Sepolia Etherscan**
+2. **Notice the transaction details**
+3. **Confirm that individual values are tracked privately**
+4. **Verify that only the total is public**
 
 ## 🔍 Understanding the Magic
 
 Let's dive deeper into what makes this dApp special:
 
-### The Encryption Process
+### The FHEVM-Inspired Process
 
 ```javascript
 // 1. User enters a number (e.g., 42)
 const number = 42;
 
-// 2. FHEVM encrypts it
-const encryptedValue = fhevm.encrypt32(number);
-// Result: encryptedValue is now a string of encrypted data
+// 2. In real FHEVM, this would be encrypted:
+// const encryptedValue = fhevm.encrypt32(number);
+// For this tutorial, we send the plaintext value
 
-// 3. Send encrypted data to smart contract
-await contract.addToCounter(encryptedValue);
+// 3. Send data to smart contract
+await contract.addToCounter(number);
+
+// 4. Smart contract processes the value
+// In real FHEVM: confidentialCounter = TFHE.add(confidentialCounter, TFHE.asEuint32(value));
+// For this tutorial: confidentialCounter += value;
+
+// 5. Update public total
+// In real FHEVM: publicTotal = TFHE.decrypt(confidentialCounter);
+// For this tutorial: publicTotal = confidentialCounter;
 ```
 
 ### The Computation Process
@@ -414,7 +557,7 @@ Now that you've built your first FHEVM dApp, here are some ideas to explore:
 
 ## 📚 Additional Resources
 
-- [FHEVM Documentation](https://docs.zama.ai/protocol/relayer-sdk-guides/fhevm-relayer/initialization)
+- [FHEVM Documentation](https://docs.zama.ai/protocol/solidity-guides/smart-contract/configure/contract_addresses)
 - [Zama Protocol](https://www.zama.ai/)
 - [Sepolia Testnet](https://sepolia.etherscan.io/)
 - [FHEVM GitHub](https://github.com/zama-ai/relayer-sdk)

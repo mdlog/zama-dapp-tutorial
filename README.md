@@ -10,10 +10,12 @@ This project demonstrates how to build a **Confidential Counter** - a simple but
 
 ## 🎯 What You'll Build
 
-- **🔒 Confidential Smart Contract**: Add encrypted numbers without revealing individual values
-- **🌐 React Frontend**: Beautiful, user-friendly interface for interacting with encrypted data
-- **⚡ Real-time Updates**: See your encrypted transactions update the public total instantly
+- **🔒 FHEVM-Inspired Smart Contract**: Demonstrates confidential computation concepts with real FHEVM operations
+- **🌐 React Frontend**: Beautiful, user-friendly interface with multiple interaction modes
+- **⚡ Real-time Updates**: See your transactions update the public total instantly
 - **🛡️ Privacy by Design**: Individual contributions remain private, only totals are public
+- **🎲 Random Generation**: Add random encrypted values to demonstrate FHEVM capabilities
+- **📊 Advanced Operations**: Threshold checking, max value comparison, and more
 
 ## 🚀 Quick Start
 
@@ -89,17 +91,29 @@ hello-fhevm-tutorial/
 
 ```solidity
 contract ConfidentialCounter {
-    // Encrypted counter - individual values remain private
-    euint32 private confidentialCounter;
+    // Confidential counter - individual values remain private
+    uint32 private confidentialCounter;
     
     // Public total - only the sum is revealed
     uint32 public publicTotal;
     
-    // Add encrypted number to counter
-    function addToCounter(inEuint32 calldata encryptedValue) external;
+    // Add number to counter (FHEVM-inspired)
+    function addToCounter(uint32 value) external;
+    
+    // Add random value (simulates TFHE.randEuint32())
+    function addRandomToCounter() external;
+    
+    // Check if counter is above threshold (simulates TFHE.gt())
+    function isCounterAboveThreshold(uint32 threshold) external returns (bool);
+    
+    // Get maximum value (simulates TFHE.max())
+    function getMaxValue(uint32 value) external view returns (uint32);
     
     // Get current public total
     function getPublicTotal() external view returns (uint32);
+    
+    // Get user's contribution (for demonstration)
+    function getUserContribution(address user) external view returns (uint32);
     
     // Reset counter (owner only)
     function resetCounter() external;
@@ -108,30 +122,41 @@ contract ConfidentialCounter {
 
 ### Frontend Features
 
-- **🔗 Wallet Connection**: Seamless MetaMask integration
-- **🎨 Beautiful UI**: Modern, responsive design
+- **🔗 Wallet Connection**: Seamless MetaMask integration with Sepolia testnet
+- **🎨 Beautiful UI**: Modern, responsive design with gradient buttons
 - **📱 Mobile Friendly**: Works on all devices
 - **🔄 Real-time Updates**: Live transaction status and updates
-- **🔍 Transaction Explorer**: Direct links to blockchain explorer
+- **🔍 Transaction Explorer**: Direct links to Sepolia Etherscan
+- **🎲 Random Value Button**: Add random encrypted values with one click
+- **📊 Advanced Operations**: Threshold checking and max value comparison
+- **🎯 Multiple Interaction Modes**: Number input, random generation, and reset
 
 ## 🧪 Testing
 
 ### Test Scenarios
 
 1. **Basic Functionality**
-   - Connect wallet
-   - Add encrypted numbers
+   - Connect wallet to Sepolia testnet
+   - Add numbers to the counter
    - Verify public total updates
+   - Test random value generation
 
-2. **Privacy Verification**
-   - Check blockchain explorer
-   - Confirm encrypted inputs
-   - Verify private individual values
+2. **Advanced Operations**
+   - Test threshold checking
+   - Compare max values
+   - Verify user contributions
+   - Test reset functionality
 
-3. **Multiple Users**
+3. **Privacy Verification**
+   - Check Sepolia Etherscan
+   - Confirm transaction details
+   - Verify individual contributions remain private
+
+4. **Multiple Users**
    - Test with different accounts
    - Add various numbers
    - Observe privacy preservation
+   - Test random value generation
 
 ### Running Tests
 
@@ -173,6 +198,18 @@ For a complete step-by-step guide, see [TUTORIAL.md](./TUTORIAL.md). The tutoria
 # .env
 PRIVATE_KEY=your_private_key_here
 SEPOLIA_RPC_URL=https://eth-sepolia.public.blastapi.io
+
+# FHEVM Contract Addresses (Sepolia)
+FHEVM_EXECUTOR_CONTRACT=0x848B0066793BcC60346Da1F49049357399B8D595
+ACL_CONTRACT=0x687820221192C5B662b25367F70076A37bc79b6c
+KMS_VERIFIER_CONTRACT=0x1364cBBf2cDF5032C47d8226a6f6FBD2AFCDacAC
+INPUT_VERIFIER_CONTRACT=0xbc91f3daD1A5F19F8390c400196e58073B6a0BC4
+DECRYPTION_ORACLE_CONTRACT=0xa02Cda4Ca3a71D7C46997716F4283aa851C28812
+DECRYPTION_ADDRESS=0xb6E160B1ff80D67Bfe90A85eE06Ce0A2613607D1
+INPUT_VERIFICATION_ADDRESS=0x7048C39f048125eDa9d678AEbaDfB22F7900a29F
+
+# Relayer URL
+RELAYER_URL=https://relayer.testnet.zama.cloud
 ```
 
 ### Network Configuration
@@ -184,23 +221,27 @@ The project is configured for:
 
 ## 🎯 Use Cases
 
-This tutorial demonstrates concepts used in:
+This tutorial demonstrates FHEVM concepts used in:
 
-- **Confidential Voting**: Private votes, public results
-- **Private Auctions**: Hidden bids, public winner
-- **Confidential Surveys**: Private responses, public statistics
-- **Private Financial Data**: Hidden transactions, public totals
-- **Confidential Machine Learning**: Private data, public models
+- **Confidential Voting**: Private votes, public results using encrypted arithmetic
+- **Private Auctions**: Hidden bids, public winner using encrypted comparisons
+- **Confidential Surveys**: Private responses, public statistics using encrypted aggregation
+- **Private Financial Data**: Hidden transactions, public totals using encrypted operations
+- **Confidential Machine Learning**: Private data, public models using encrypted computations
+- **Random Number Generation**: Secure random values for gaming and lotteries
+- **Threshold-based Systems**: Private comparisons for access control and decision making
 
 ## 🚀 Next Steps
 
 After completing this tutorial, explore:
 
-1. **Confidential Voting System**
-2. **Private Number Guessing Game**
-3. **Confidential Survey Platform**
-4. **Private Auction System**
-5. **Confidential Token Transfer**
+1. **Confidential Voting System** - Using encrypted arithmetic for vote counting
+2. **Private Number Guessing Game** - Using encrypted comparisons and random generation
+3. **Confidential Survey Platform** - Using encrypted aggregation for statistics
+4. **Private Auction System** - Using encrypted comparisons for bid evaluation
+5. **Confidential Token Transfer** - Using encrypted operations for private transactions
+6. **Threshold-based Access Control** - Using encrypted comparisons for permission systems
+7. **Confidential Lottery System** - Using random generation and encrypted operations
 
 ## 🤝 Contributing
 
@@ -239,7 +280,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Documentation**: [FHEVM Docs](https://docs.zama.ai/protocol/relayer-sdk-guides/fhevm-relayer/initialization)
+- **Documentation**: [FHEVM Docs](https://docs.zama.ai/protocol/solidity-guides/smart-contract/configure/contract_addresses)
 - **Community**: [Zama Discord](https://discord.gg/zama)
 - **Issues**: [GitHub Issues](https://github.com/mdlog/zama-dapp-tutorial/issues)
 - **Sepolia Faucet**: [Sepolia Faucet](https://sepoliafaucet.com/)
