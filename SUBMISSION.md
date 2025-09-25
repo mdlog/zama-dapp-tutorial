@@ -254,8 +254,8 @@ npx hardhat run scripts/verify.js --network sepolia
 
 ## 📞 Contact and Links
 
-- **GitHub Repository**: [Your Repository URL]
-- **Live Demo**: [Your Demo URL]
+- **GitHub Repository**: [https://github.com/mdlog/zama-dapp-tutorial](https://github.com/mdlog/zama-dapp-tutorial)
+- **Live Demo**: [https://github.com/mdlog/zama-dapp-tutorial](https://github.com/mdlog/zama-dapp-tutorial)
 - **Tutorial**: [TUTORIAL.md](./TUTORIAL.md)
 - **Documentation**: [README.md](./README.md)
 

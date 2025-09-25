@@ -28,8 +28,8 @@ This project demonstrates how to build a **Confidential Counter** - a simple but
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
-cd hello-fhevm-tutorial
+git clone https://github.com/mdlog/zama-dapp-tutorial.git
+cd zama-dapp-tutorial
 
 # Install dependencies
 npm install
@@ -145,7 +145,9 @@ cd frontend && npm test
 
 ## 🌐 Live Demo
 
-[🚀 Try the live demo](https://your-demo-url.com) on Sepolia testnet!
+[🚀 Try the live demo](https://github.com/mdlog/zama-dapp-tutorial) on Sepolia testnet!
+
+**Repository**: [https://github.com/mdlog/zama-dapp-tutorial](https://github.com/mdlog/zama-dapp-tutorial)
 
 **Note**: You'll need:
 - MetaMask wallet
@@ -208,8 +210,8 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 ```bash
 # Fork and clone the repository
-git clone <your-fork-url>
-cd hello-fhevm-tutorial
+git clone https://github.com/mdlog/zama-dapp-tutorial.git
+cd zama-dapp-tutorial
 
 # Install dependencies
 npm install
@@ -239,7 +241,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Documentation**: [FHEVM Docs](https://docs.zama.ai/fhevm)
 - **Community**: [Zama Discord](https://discord.gg/zama)
-- **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
+- **Issues**: [GitHub Issues](https://github.com/mdlog/zama-dapp-tutorial/issues)
 - **Sepolia Faucet**: [Sepolia Faucet](https://sepoliafaucet.com/)
 
 ## 🏆 Zama Bounty Program
@@ -255,5 +257,5 @@ This project was created for **Zama Bounty Program Season 10** - Creating the mo
 
 **🎉 Ready to build the future of confidential computing?** Start with this tutorial and join the FHEVM revolution!
 
-[![Star this repo](https://img.shields.io/github/stars/your-repo?style=social)](https://github.com/your-repo)
+[![Star this repo](https://img.shields.io/github/stars/mdlog/zama-dapp-tutorial?style=social)](https://github.com/mdlog/zama-dapp-tutorial)
 [![Follow on Twitter](https://img.shields.io/twitter/follow/zama_fhe?style=social)](https://twitter.com/zama_fhe)

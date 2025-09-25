@@ -114,8 +114,8 @@ A: Follow our tutorial, join the Zama community, and start building!
 
 ```bash
 # 1. Clone and setup
-git clone <your-repo-url>
-cd hello-fhevm-tutorial
+git clone https://github.com/mdlog/zama-dapp-tutorial.git
+cd zama-dapp-tutorial
 ./setup.sh
 
 # 2. Configure environment

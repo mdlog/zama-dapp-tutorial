@@ -84,8 +84,8 @@ Our **Confidential Counter** dApp will:
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
-cd hello-fhevm-tutorial
+git clone https://github.com/mdlog/zama-dapp-tutorial.git
+cd zama-dapp-tutorial
 
 # Install backend dependencies
 npm install
@@ -442,7 +442,7 @@ Found a bug or want to improve this tutorial? We'd love your help!
 
 - **Documentation**: [FHEVM Docs](https://docs.zama.ai/fhevm)
 - **Community**: [Zama Discord](https://discord.gg/zama)
-- **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
+- **Issues**: [GitHub Issues](https://github.com/mdlog/zama-dapp-tutorial/issues)
 - **Sepolia Faucet**: [Sepolia Faucet](https://sepoliafaucet.com/)
 
 ## 📄 License
