@@ -38,14 +38,17 @@ contract RealFhevmCounter {
     
     /**
      * @dev Add encrypted number to counter
-     * @param encryptedValue Encrypted input dari user
-     * @param inputProof Proof untuk verifikasi input
+     * @param value The number to add (simulation for demo)
      * 
      * WORKFLOW:
      * 1. User encrypt angka di frontend
      * 2. Kirim encrypted data + proof ke contract
      * 3. Contract verifikasi dan proses encrypted data
      * 4. Hanya total yang di-decrypt dan di-public
+     * 
+     * Note: In real FHEVM, parameters would be:
+     * - externalEuint32 encryptedValue
+     * - bytes calldata inputProof
      */
     function addToCounter(
         // externalEuint32 encryptedValue, 
@@ -88,7 +91,7 @@ contract RealFhevmCounter {
      * @param threshold Threshold untuk comparison
      * @return True jika counter > threshold
      */
-    function isCounterAboveThreshold(uint32 threshold) public view returns (bool) {
+    function isCounterAboveThreshold(uint32 threshold) public returns (bool) {
         // REAL FHEVM:
         // euint32 encryptedThreshold = TFHE.asEuint32(threshold);
         // ebool result = TFHE.gt(confidentialCounter, encryptedThreshold);

@@ -26,7 +26,7 @@ const ConfidentialCounter = () => {
         "function isCounterAboveThreshold(uint32 threshold) external view returns (bool)",
         "function getMaxValue(uint32 value) external view returns (uint32)",
         "function getUserContribution(address user) external view returns (uint32)",
-        "function resetCounter() external",
+        "function resetPublicTotal() external",
         "function owner() external view returns (address)",
         "function decryptCounter() external view returns (uint32)",
         "event CounterIncremented(address indexed user, uint32 contribution, uint32 publicTotal)",
@@ -69,7 +69,7 @@ const ConfidentialCounter = () => {
 
         try {
             const total = await contract.getPublicTotal();
-            setCounter(Number(total));
+            setPublicTotal(Number(total));
 
             // Clear decrypted values to force refresh
             setDecryptedValue(null);
@@ -118,7 +118,7 @@ const ConfidentialCounter = () => {
             if (receipt.status === 1) {
                 // Update the public total
                 const newTotal = await contract.getPublicTotal();
-                setCounter(Number(newTotal));
+                setPublicTotal(Number(newTotal));
 
                 // Clear decrypted values to force refresh
                 setDecryptedValue(null);
@@ -173,7 +173,7 @@ const ConfidentialCounter = () => {
             if (receipt.status === 1) {
                 // Update the public total
                 const newTotal = await contract.getPublicTotal();
-                setCounter(Number(newTotal));
+                setPublicTotal(Number(newTotal));
 
                 // Clear decrypted values to force refresh
                 setDecryptedValue(null);
@@ -221,10 +221,9 @@ const ConfidentialCounter = () => {
             // const decrypted = await fhevm.decrypt(encryptedValue);
 
             // Simulasi decrypt - AMBIL DATA TERBARU DARI BLOCKCHAIN
-            const encryptedValue = await contract.getEncryptedCounter();
             const publicTotal = await contract.getPublicTotal();
 
-            // Gunakan publicTotal yang selalu terupdate, bukan encryptedValue
+            // Gunakan publicTotal yang selalu terupdate
             const decrypted = Number(publicTotal);
 
             setDecryptedValue(decrypted);
@@ -311,14 +310,14 @@ const ConfidentialCounter = () => {
         }, 2000);
     };
 
-    const resetCounter = async () => {
+    const resetPublicTotal = async () => {
         if (!contract) return;
 
         setIsLoading(true);
         setStatus(null);
 
         try {
-            const tx = await contract.resetCounter();
+            const tx = await contract.resetPublicTotal();
             setTransactionHash(tx.hash);
 
             setStatus({
@@ -432,7 +431,7 @@ const ConfidentialCounter = () => {
 
             <div className="reset-section">
                 <button
-                    onClick={resetCounter}
+                    onClick={resetPublicTotal}
                     disabled={isLoading}
                     style={{ background: 'linear-gradient(45deg, #ff4757, #c44569)' }}
                 >
