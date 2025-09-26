@@ -9,6 +9,8 @@ module.exports = {
                 enabled: true,
                 runs: 200,
             },
+            // FHEVM specific settings
+            viaIR: true,
         },
     },
     networks: {

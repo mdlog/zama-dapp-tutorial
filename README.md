@@ -29,27 +29,27 @@ This project demonstrates how to build a **Confidential Counter** - a simple but
 
 By the end of this tutorial, you will have built:
 
-- **🔒 FHEVM-Inspired Smart Contract**: Demonstrates confidential computation concepts with real FHEVM operations
-- **🌐 React Frontend**: Beautiful, user-friendly interface with multiple interaction modes
-- **⚡ Real-time Updates**: See your transactions update the public total instantly
-- **🛡️ Privacy by Design**: Individual contributions remain private, only totals are public
-- **🎲 Random Generation**: Add random encrypted values to demonstrate FHEVM capabilities
-- **📊 Advanced Operations**: Threshold checking, max value comparison, and more
-- **🔓 Individual Decryption**: Decrypt your own contributions while keeping others private
-- **🔐 FHEVM Demo**: Interactive workflow demonstration of encrypt/decrypt process
+- **🔒 Real FHEVM Smart Contract**: Uses actual encrypted types (euint32, ebool) and FHE operations
+- **🌐 React Frontend**: Beautiful, user-friendly interface with real FHEVM integration
+- **⚡ Encrypted Computation**: Real computation on encrypted data using TFHE functions
+- **🛡️ True Privacy**: Individual contributions remain encrypted, only totals are decrypted
+- **🎲 FHE PRNG**: Uses FHEVM's built-in random number generation (TFHE.randEuint32)
+- **📊 Advanced FHE Operations**: Encrypted arithmetic, comparison, and conditional operations
+- **🔓 Selective Decryption**: Decrypt your own contributions while keeping others encrypted
+- **🔐 Real FHEVM Workflow**: Complete encrypt → compute → decrypt workflow with proofs
 
 ### What You'll Learn
 
 - ✅ Understand the basics of FHEVM and why it matters
-- ✅ Set up a complete FHEVM development environment
-- ✅ Build and deploy a FHEVM-inspired smart contract
-- ✅ Create a React frontend with multiple interaction modes
-- ✅ Experience the **Encryption → Computation → Decryption** workflow
-- ✅ Learn about encrypted operations: arithmetic, comparison, and random generation
-- ✅ Understand threshold checking and max value operations
-- ✅ Master individual decryption and selective privacy features
-- ✅ Explore FHEVM demo workflow with interactive examples
-- ✅ Be confident to start experimenting with more advanced FHE use cases
+- ✅ Set up a complete FHEVM development environment with real encrypted types
+- ✅ Build and deploy a real FHEVM smart contract using euint32, ebool, and TFHE functions
+- ✅ Create a React frontend with actual FHEVM integration and encrypted inputs
+- ✅ Experience the real **Encryption → Computation → Decryption** workflow with proofs
+- ✅ Learn about real FHE operations: TFHE.add, TFHE.gt, TFHE.max, TFHE.randEuint32
+- ✅ Understand encrypted arithmetic, comparison, and conditional operations
+- ✅ Master selective decryption and true privacy-preserving computation
+- ✅ Explore advanced FHEVM features like encrypted conditional operations
+- ✅ Be confident to build production-ready confidential dApps with FHEVM
 
 ## 🔍 What is FHEVM?
 
@@ -141,11 +141,14 @@ Add the Sepolia Testnet to your MetaMask:
 ### Step 5: Deployment
 
 ```bash
-# Compile the smart contract
+# Compile the smart contracts
 npx hardhat compile
 
-# Deploy to Sepolia testnet
-npx hardhat run scripts/deploy.js --network sepolia
+# Deploy educational version to Sepolia testnet
+npm run deploy -- --network sepolia
+
+# OR deploy real FHEVM version to Sepolia testnet
+npm run deploy-real -- --network sepolia
 
 # Start the frontend
 cd frontend && npm start
@@ -153,27 +156,39 @@ cd frontend && npm start
 
 The app will open at `http://localhost:3000`
 
+**Note**: Choose the deployment based on your needs:
+- **Educational version**: For learning FHEVM concepts
+- **Real FHEVM version**: For actual encrypted computation
+
 ## 📁 Project Structure
 
 ```
 hello-fhevm-tutorial/
 ├── contracts/
-│   ├── ConfidentialCounter.sol    # FHEVM smart contract
-│   └── RealFhevmCounter.sol       # Real FHEVM implementation example
+│   ├── ConfidentialCounter.sol    # Educational FHEVM smart contract
+│   └── RealFhevmCounter.sol       # Real FHEVM implementation with encrypted types
 ├── scripts/
-│   └── deploy.js                  # Deployment script
+│   ├── deploy.js                  # Educational deployment script
+│   └── deploy-real-fhevm.js       # Real FHEVM deployment script
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── FhevmProvider.js   # FHEVM context provider
+│   │   │   ├── FhevmProvider.js   # Educational FHEVM context provider
+│   │   │   ├── RealFhevmProvider.js # Real FHEVM context provider
 │   │   │   ├── WalletConnection.js # MetaMask integration
-│   │   │   ├── ConfidentialCounter.js # Main dApp component
+│   │   │   ├── ConfidentialCounter.js # Educational dApp component
+│   │   │   ├── RealFhevmCounter.js # Real FHEVM dApp component
 │   │   │   └── RealFhevmExample.js # Real FHEVM example component
 │   │   ├── App.js                 # Main React app
 │   │   └── contract-info.json     # Contract deployment info
 │   └── package.json
-├── hardhat.config.js              # Hardhat configuration
-├── package.json                   # Project dependencies
+├── hardhat.config.js              # Hardhat configuration with FHEVM support
+├── package.json                   # Project dependencies with FHEVM
+├── setup-fhevm.sh                 # Real FHEVM setup script
+├── REAL_FHEVM_GUIDE.md            # Detailed real FHEVM implementation guide
+├── test/
+│   ├── ConfidentialCounter.test.js # Educational contract tests
+│   └── RealFhevmCounter.test.js    # Real FHEVM contract tests
 └── README.md                      # Complete tutorial and guide (this file)
 ```
 
@@ -343,7 +358,13 @@ contract ConfidentialCounter {
 ### Running Tests
 
 ```bash
-# Run smart contract tests
+# Run educational smart contract tests
+npx hardhat test test/ConfidentialCounter.test.js
+
+# Run real FHEVM smart contract tests
+npx hardhat test test/RealFhevmCounter.test.js
+
+# Run all tests
 npx hardhat test
 
 # Test frontend components
@@ -470,6 +491,87 @@ function decryptMyContribution() public view returns (uint32) {
 - **Public Transparency**: Total sum is publicly available
 - **Access Control**: Smart contract manages decryption permissions
 - **Selective Decryption**: Choose what to decrypt and what to keep private
+
+## 🔐 Real FHEVM Implementation
+
+This tutorial now includes **two implementations** to help you understand both concepts and real-world usage:
+
+### 1. **Educational Implementation** (`ConfidentialCounter.sol`)
+- Demonstrates FHEVM concepts with comments
+- Uses regular Solidity types for learning
+- Shows the workflow conceptually
+
+### 2. **Real FHEVM Implementation** (`RealFhevmCounter.sol`) ⭐
+- **Uses actual encrypted types**: `euint32`, `ebool`
+- **Real FHE operations**: `TFHE.add`, `TFHE.gt`, `TFHE.max`, `TFHE.randEuint32`
+- **Encrypted inputs with proofs**: `externalEuint32` with `bytes calldata inputProof`
+- **True privacy**: Individual data remains encrypted
+- **Advanced features**: Encrypted arithmetic, conditional operations
+
+### Real FHEVM Smart Contract Features
+
+```solidity
+// Real encrypted data types
+euint32 private confidentialCounter;
+mapping(address => euint32) private encryptedUserContributions;
+
+// Real FHE operations
+function addToCounter(externalEuint32 encryptedValue, bytes calldata inputProof) public {
+    euint32 value = TFHE.asEuint32(encryptedValue, inputProof);
+    confidentialCounter = TFHE.add(confidentialCounter, value);
+    publicTotal = TFHE.decrypt(confidentialCounter);
+}
+
+// FHEVM's built-in random number generation
+function addRandomToCounter() public {
+    euint32 randomValue = TFHE.randEuint32();
+    confidentialCounter = TFHE.add(confidentialCounter, randomValue);
+    publicTotal = TFHE.decrypt(confidentialCounter);
+}
+
+// Encrypted comparison operations
+function isCounterAboveThreshold(uint32 threshold) public returns (bool) {
+    euint32 encryptedThreshold = TFHE.asEuint32(threshold);
+    ebool encryptedResult = TFHE.gt(confidentialCounter, encryptedThreshold);
+    return TFHE.decrypt(encryptedResult);
+}
+```
+
+### Real FHEVM Frontend Integration
+
+```javascript
+// Real FHEVM encryption and proof generation
+const { encryptedValue, proof } = await fhevm.encryptValue(number);
+const tx = await contract.addToCounter(encryptedValue, proof);
+
+// Real FHEVM decryption
+const decryptedContribution = await fhevm.decryptValue(encryptedContribution);
+```
+
+### Deployment Commands
+
+```bash
+# Deploy educational version
+npm run deploy
+
+# Deploy real FHEVM version
+npm run deploy-real
+```
+
+### Key Differences
+
+| Feature | Educational | Real FHEVM |
+|---------|-------------|------------|
+| **Data Types** | `uint32` | `euint32`, `ebool` |
+| **Inputs** | Plain values | Encrypted + proofs |
+| **Operations** | Regular Solidity | `TFHE.add`, `TFHE.gt`, etc. |
+| **Random** | `keccak256` | `TFHE.randEuint32()` |
+| **Privacy** | Simulated | Real encrypted |
+| **Use Case** | Learning | Production |
+
+### 📖 Real FHEVM Guide
+
+For detailed information about the real FHEVM implementation, see [REAL_FHEVM_GUIDE.md](./REAL_FHEVM_GUIDE.md).
 
 ## 🎬 Demo Guide
 
@@ -790,16 +892,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Sepolia Team** for providing the testnet infrastructure
 - **Community** for feedback and contributions
 
-## 🏆 Zama Bounty Program
-
-This project was created for **Zama Bounty Program Season 10** - Creating the most beginner-friendly "Hello FHEVM" tutorial.
-
-**Prize Pool**: $10,000
-- 🥇 1st place: $5,000
-- 🥈 2nd place: $3,000
-- 🥉 3rd place: $2,000
-
----
 
 ## 🎉 Conclusion
 
@@ -814,4 +906,4 @@ This project was created for **Zama Bounty Program Season 10** - Creating the mo
 
 ---
 
-*Built for Zama Bounty Program Season 10 - Creating the most beginner-friendly "Hello FHEVM" tutorial*
+*Creating the most beginner-friendly "Hello FHEVM" tutorial*

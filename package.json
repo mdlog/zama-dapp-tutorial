@@ -7,6 +7,7 @@
         "compile": "hardhat compile",
         "test": "hardhat test",
         "deploy": "hardhat run scripts/deploy.js",
+        "deploy-real": "hardhat run scripts/deploy-real-fhevm.js",
         "dev": "cd frontend && npm start",
         "build": "cd frontend && npm run build"
     },
@@ -25,6 +26,7 @@
     },
     "dependencies": {
         "@zama-fhe/relayer-sdk": "^0.2.0",
+        "fhevm": "^0.1.0",
         "ethers": "^6.8.0"
     }
 }
