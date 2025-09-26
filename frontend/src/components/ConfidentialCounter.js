@@ -63,6 +63,28 @@ const ConfidentialCounter = () => {
         initializeContract();
     }, [provider, contractABI]);
 
+    // Fungsi untuk refresh data dari blockchain
+    const refreshData = async () => {
+        if (!contract) return;
+
+        try {
+            const total = await contract.getPublicTotal();
+            setCounter(Number(total));
+
+            // Clear decrypted values to force refresh
+            setDecryptedValue(null);
+            setUserContribution(null);
+            setShowIndividualDecrypt(false);
+
+            setStatus({
+                type: 'info',
+                message: 'Data refreshed from blockchain'
+            });
+        } catch (error) {
+            console.error('❌ Failed to refresh data:', error);
+        }
+    };
+
     const addToCounter = async () => {
         if (!contract || !inputValue) {
             setStatus({ type: 'error', message: 'Please enter a number to add' });
@@ -96,7 +118,12 @@ const ConfidentialCounter = () => {
             if (receipt.status === 1) {
                 // Update the public total
                 const newTotal = await contract.getPublicTotal();
-                setPublicTotal(Number(newTotal));
+                setCounter(Number(newTotal));
+
+                // Clear decrypted values to force refresh
+                setDecryptedValue(null);
+                setUserContribution(null);
+                setShowIndividualDecrypt(false);
 
                 setStatus({
                     type: 'success',
@@ -146,7 +173,12 @@ const ConfidentialCounter = () => {
             if (receipt.status === 1) {
                 // Update the public total
                 const newTotal = await contract.getPublicTotal();
-                setPublicTotal(Number(newTotal));
+                setCounter(Number(newTotal));
+
+                // Clear decrypted values to force refresh
+                setDecryptedValue(null);
+                setUserContribution(null);
+                setShowIndividualDecrypt(false);
 
                 setStatus({
                     type: 'success',
@@ -188,14 +220,17 @@ const ConfidentialCounter = () => {
             // const encryptedValue = await contract.getEncryptedCounter();
             // const decrypted = await fhevm.decrypt(encryptedValue);
 
-            // Simulasi decrypt
+            // Simulasi decrypt - AMBIL DATA TERBARU DARI BLOCKCHAIN
             const encryptedValue = await contract.getEncryptedCounter();
-            const decrypted = Number(encryptedValue);
+            const publicTotal = await contract.getPublicTotal();
+
+            // Gunakan publicTotal yang selalu terupdate, bukan encryptedValue
+            const decrypted = Number(publicTotal);
 
             setDecryptedValue(decrypted);
             setStatus({
                 type: 'success',
-                message: `Successfully decrypted counter value: ${decrypted}`
+                message: `Successfully decrypted counter value: ${decrypted} (Global Total)`
             });
 
         } catch (error) {
@@ -384,6 +419,14 @@ const ConfidentialCounter = () => {
                     >
                         {isLoading ? '🔄 Decrypting...' : '👤 Decrypt My Input'}
                     </button>
+
+                    <button
+                        onClick={refreshData}
+                        disabled={isLoading}
+                        style={{ background: 'linear-gradient(45deg, #2ed573, #1e90ff)' }}
+                    >
+                        {isLoading ? '🔄 Refreshing...' : '🔄 Refresh Data'}
+                    </button>
                 </div>
             </div>
 
@@ -484,6 +527,16 @@ const ConfidentialCounter = () => {
                             color: '#666'
                         }}>
                             <strong>Note:</strong> In real FHEVM, individual contributions would remain encrypted and only you (the owner) could decrypt your own data. This is a demonstration of selective decryption.
+                        </div>
+                        <div style={{
+                            padding: '10px',
+                            backgroundColor: '#e3f2fd',
+                            borderRadius: '5px',
+                            fontSize: '14px',
+                            color: '#1976d2',
+                            marginTop: '10px'
+                        }}>
+                            <strong>💡 Tip:</strong> Use "🔄 Refresh Data" button to get the latest global total from blockchain after other users add numbers.
                         </div>
                     </div>
                 </div>

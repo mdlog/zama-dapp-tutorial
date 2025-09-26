@@ -1,4 +1,4 @@
-# 🔐 Hello FHEVM - Your First Confidential dApp
+`# 🔐 Hello FHEVM - Your First Confidential dApp
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![FHEVM](https://img.shields.io/badge/FHEVM-v0.1.0-blue.svg)](https://github.com/fhenixprotocol/fhevm)
