@@ -50,7 +50,7 @@ npx hardhat run scripts/deploy.js --network sepolia
 - Individual values remain private
 - Multiple interaction modes (number input, random generation, threshold checking)
 
-#### Step 3: Show the Frontend (4 minutes)
+#### Step 3: Show the Frontend (5 minutes)
 
 **"Let's interact with our FHEVM-inspired dApp..."**
 
@@ -58,27 +58,35 @@ npx hardhat run scripts/deploy.js --network sepolia
 2. Connect MetaMask wallet to Sepolia testnet
 3. **Add a number** (e.g., 42) - show the blue "Add Encrypted Number" button
 4. **Add a random value** - show the green "Add Random Value" button
-5. **Show the transaction** on Sepolia Etherscan
-6. **Highlight**: Multiple interaction modes and real-time updates!
+5. **Decrypt Counter** - show the orange "🔓 Decrypt Counter" button
+6. **Decrypt My Input** - show the yellow "👤 Decrypt My Input" button
+7. **FHEVM Demo** - show the purple "🔐 FHEVM Demo" button
+8. **Show the transaction** on Sepolia Etherscan
+9. **Highlight**: Multiple interaction modes, decryption features, and real-time updates!
 
-#### Step 4: Demonstrate Advanced Features (3 minutes)
+#### Step 4: Demonstrate Advanced Features (4 minutes)
 
 **"Let's explore the advanced FHEVM features..."**
 
 1. **Add multiple numbers** to build up the counter
 2. **Add random values** to show random generation
-3. **Test threshold checking** - show how the counter can be compared
-4. **Show user contributions** - demonstrate individual tracking
-5. **Key point**: "Multiple FHEVM operations working together!"
+3. **Decrypt Counter** - show the total counter value
+4. **Decrypt My Input** - show individual user contribution
+5. **FHEVM Demo** - show the interactive workflow explanation
+6. **Test threshold checking** - show how the counter can be compared
+7. **Show user contributions** - demonstrate individual tracking
+8. **Key point**: "Multiple FHEVM operations and decryption features working together!"
 
-#### Step 5: Demonstrate Privacy (2 minutes)
+#### Step 5: Demonstrate Privacy (3 minutes)
 
 **"Let's prove the privacy works..."**
 
 1. Add another number from a different account
 2. Show that individual values are tracked privately
-3. Show that only the total is public
-4. **Key point**: "Your individual contribution is completely private!"
+3. **Decrypt My Input** from each account - show individual contributions
+4. **Decrypt Counter** - show the public total
+5. Show that only the total is public, individual contributions remain private
+6. **Key point**: "Selective decryption - you can see your own data, but others' data stays private!"
 
 ### Q&A and Discussion (3-5 minutes)
 

@@ -1,13 +1,20 @@
 const { ethers } = require("hardhat");
+require('dotenv').config();
 
 async function main() {
     console.log("🚀 Deploying ConfidentialCounter contract...");
+
+    // Create provider and wallet
+    const provider = new ethers.JsonRpcProvider(process.env.SEPOLIA_RPC_URL);
+    const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+
+    console.log("Deploying contracts with the account:", wallet.address);
 
     // Get the contract factory
     const ConfidentialCounter = await ethers.getContractFactory("ConfidentialCounter");
 
     // Deploy the contract
-    const confidentialCounter = await ConfidentialCounter.deploy();
+    const confidentialCounter = await ConfidentialCounter.connect(wallet).deploy();
 
     // Wait for deployment to complete
     await confidentialCounter.waitForDeployment();

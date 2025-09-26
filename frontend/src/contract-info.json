@@ -1,6 +1,6 @@
 {
-    "contractAddress": "0x0000000000000000000000000000000000000000",
-    "network": "sepolia-testnet",
-    "deployedAt": "2025-01-27T00:00:00.000Z",
-    "owner": "0x0000000000000000000000000000000000000000"
+  "contractAddress": "0x626bcD066819C687e8F49Db3d395b501bF3308E3",
+  "network": "sepolia-testnet",
+  "deployedAt": "2025-09-26T03:44:02.476Z",
+  "owner": "0x6BbB59c971826380e0DDa7BD527154AC337780e9"
 }

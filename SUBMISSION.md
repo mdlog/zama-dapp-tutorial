@@ -35,7 +35,8 @@ This submission provides the most beginner-friendly tutorial for building your f
 ```
 hello-fhevm-tutorial/
 ├── 📁 contracts/
-│   └── ConfidentialCounter.sol      # FHEVM smart contract
+│   ├── ConfidentialCounter.sol      # FHEVM smart contract
+│   └── RealFhevmCounter.sol         # Real FHEVM implementation example
 ├── 📁 scripts/
 │   ├── deploy.js                    # Deployment script
 │   └── verify.js                    # Contract verification
@@ -44,7 +45,8 @@ hello-fhevm-tutorial/
 │   │   ├── 📁 components/
 │   │   │   ├── FhevmProvider.js     # FHEVM context provider
 │   │   │   ├── WalletConnection.js  # MetaMask integration
-│   │   │   └── ConfidentialCounter.js # Main dApp component
+│   │   │   ├── ConfidentialCounter.js # Main dApp component
+│   │   │   └── RealFhevmExample.js  # Real FHEVM example component
 │   │   └── App.js                   # React application
 │   └── package.json                 # Frontend dependencies
 ├── 📁 test/
@@ -53,6 +55,7 @@ hello-fhevm-tutorial/
 ├── 📄 TUTORIAL.md                   # Complete tutorial guide
 ├── 📄 README.md                     # Project documentation
 ├── 📄 DEMO.md                       # Demo guide
+├── 📄 INDIVIDUAL_DECRYPT_GUIDE.md   # Individual decryption guide
 ├── 📄 CONTRIBUTING.md               # Contribution guidelines
 ├── 📄 setup.sh                      # Automated setup script
 └── 📄 LICENSE                       # MIT License
@@ -78,18 +81,23 @@ hello-fhevm-tutorial/
 - **Mobile friendly**: Works on all devices
 - **Transaction explorer**: Direct links to Sepolia Etherscan
 - **Advanced operations**: Threshold checking and max value comparison
+- **Individual decryption**: Decrypt your own contributions while keeping others private
+- **FHEVM demo**: Interactive workflow demonstration of encrypt/decrypt process
+- **Selective decryption**: Choose what to decrypt and what to keep private
 
 ### Key Components
 1. **FhevmProvider**: Initializes provider and provides context for the entire app
 2. **WalletConnection**: Handles MetaMask connection and Sepolia testnet switching
-3. **ConfidentialCounter**: Main component with multiple interaction modes and advanced operations
+3. **ConfidentialCounter**: Main component with multiple interaction modes, advanced operations, and decryption features
+4. **RealFhevmExample**: Demonstrates real FHEVM implementation concepts
 
 ## 📚 Documentation
 
 ### Tutorial (TUTORIAL.md)
-- **Complete step-by-step guide**: 11 sections covering everything from basics to advanced FHEVM concepts
+- **Complete step-by-step guide**: 12 sections covering everything from basics to advanced FHEVM concepts
 - **Code explanations**: Detailed breakdown of FHEVM-inspired smart contract and frontend code
 - **FHEVM operations**: Arithmetic, comparison, random generation, and max operations
+- **Individual decryption**: Complete guide to selective decryption features
 - **Real-world examples**: Practical use cases and applications
 - **Educational approach**: Shows real FHEVM implementation alongside current code
 - **Next steps**: Guidance for further learning and development

@@ -14,7 +14,8 @@ Welcome to the most beginner-friendly tutorial for building your first confident
 8. [Deployment](#deployment)
 9. [Testing Your dApp](#testing-your-dapp)
 10. [Understanding the Magic](#understanding-the-magic)
-11. [Next Steps](#next-steps)
+11. [Individual Decryption Features](#individual-decryption-features)
+12. [Next Steps](#next-steps)
 
 ## 🎯 What You'll Learn
 
@@ -27,6 +28,8 @@ By the end of this tutorial, you will:
 - ✅ Experience the **Encryption → Computation → Decryption** workflow
 - ✅ Learn about encrypted operations: arithmetic, comparison, and random generation
 - ✅ Understand threshold checking and max value operations
+- ✅ Master individual decryption and selective privacy features
+- ✅ Explore FHEVM demo workflow with interactive examples
 - ✅ Be confident to start experimenting with more advanced FHE use cases
 
 ## 🔧 Prerequisites
@@ -579,6 +582,107 @@ Found a bug or want to improve this tutorial? We'd love your help!
 - **Community**: [Zama Discord](https://discord.gg/zama)
 - **Issues**: [GitHub Issues](https://github.com/mdlog/zama-dapp-tutorial/issues)
 - **Sepolia Faucet**: [Sepolia Faucet](https://sepoliafaucet.com/)
+
+## 🔓 Individual Decryption Features
+
+This section covers the advanced decryption features that have been added to the application.
+
+### Understanding Individual Decryption
+
+Individual decryption allows users to decrypt their own contributions while keeping other users' data private. This demonstrates the concept of **selective decryption** in FHEVM.
+
+### Features Added
+
+#### 1. **🔓 Decrypt Counter Button**
+- Decrypts the total counter value from the smart contract
+- Shows the current sum of all contributions
+- Demonstrates public decryption for transparency
+
+#### 2. **👤 Decrypt My Input Button**
+- Decrypts individual user contributions
+- Shows only the user's own total contribution
+- Demonstrates private decryption with access control
+
+#### 3. **🔐 FHEVM Demo Button**
+- Interactive demonstration of the encrypt/decrypt workflow
+- Shows step-by-step process of FHEVM operations
+- Educational tool for understanding FHE concepts
+
+### How Individual Decryption Works
+
+```javascript
+// 1. Get user's encrypted contribution
+const encryptedContribution = await contract.getEncryptedUserContribution(userAddress);
+
+// 2. Decrypt using FHEVM (only user with private key can decrypt)
+const decryptedContribution = await fhevm.decrypt(encryptedContribution);
+
+// 3. Display result
+setUserContribution({
+    address: userAddress,
+    contribution: decryptedContribution
+});
+```
+
+### Smart Contract Implementation
+
+```solidity
+// Mapping to store individual encrypted contributions
+mapping(address => euint32) private encryptedUserContributions;
+
+// Function to decrypt individual contribution
+function decryptMyContribution() public view returns (uint32) {
+    // Only the user with private key can decrypt their own data
+    return TFHE.decrypt(encryptedUserContributions[msg.sender]);
+}
+```
+
+### Testing Individual Decryption
+
+1. **Connect your wallet** to the dApp
+2. **Add some numbers** to the counter (e.g., 42, 58, 100)
+3. **Click "👤 Decrypt My Input"** to see your total contribution
+4. **Click "🔓 Decrypt Counter"** to see the public total
+5. **Click "🔐 FHEVM Demo"** to see the workflow explanation
+
+### Privacy and Security
+
+- **Individual Privacy**: Only you can decrypt your own contributions
+- **Public Transparency**: Total sum is publicly available
+- **Access Control**: Smart contract manages decryption permissions
+- **Selective Decryption**: Choose what to decrypt and what to keep private
+
+### Real FHEVM Implementation
+
+In a real FHEVM environment, the implementation would look like this:
+
+```solidity
+contract RealFhevmCounter {
+    mapping(address => euint32) private encryptedUserContributions;
+    
+    function addToCounter(externalEuint32 encryptedValue, bytes calldata proof) public {
+        euint32 value = TFHE.asEuint32(encryptedValue, proof);
+        encryptedUserContributions[msg.sender] = TFHE.add(
+            encryptedUserContributions[msg.sender], 
+            value
+        );
+    }
+    
+    function decryptMyContribution() public view returns (uint32) {
+        return TFHE.decrypt(encryptedUserContributions[msg.sender]);
+    }
+}
+```
+
+### Frontend Integration
+
+The frontend now includes:
+- Individual decryption functionality
+- User-specific contribution display
+- Interactive FHEVM workflow demo
+- Privacy-preserving UI components
+
+For more detailed information, see [INDIVIDUAL_DECRYPT_GUIDE.md](./INDIVIDUAL_DECRYPT_GUIDE.md).
 
 ## 📄 License
 

@@ -12,6 +12,10 @@ const ConfidentialCounter = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState(null);
     const [transactionHash, setTransactionHash] = useState(null);
+    const [decryptedValue, setDecryptedValue] = useState(null);
+    const [showDecryptDemo, setShowDecryptDemo] = useState(false);
+    const [userContribution, setUserContribution] = useState(null);
+    const [showIndividualDecrypt, setShowIndividualDecrypt] = useState(false);
 
     // Contract ABI - FHEVM-inspired version for the frontend
     const contractABI = [
@@ -24,6 +28,7 @@ const ConfidentialCounter = () => {
         "function getUserContribution(address user) external view returns (uint32)",
         "function resetCounter() external",
         "function owner() external view returns (address)",
+        "function decryptCounter() external view returns (uint32)",
         "event CounterIncremented(address indexed user, uint32 contribution, uint32 publicTotal)",
         "event CounterReset(address indexed owner)",
         "event RandomValueAdded(address indexed user, uint32 publicTotal)",
@@ -56,7 +61,7 @@ const ConfidentialCounter = () => {
         };
 
         initializeContract();
-    }, [provider]);
+    }, [provider, contractABI]);
 
     const addToCounter = async () => {
         if (!contract || !inputValue) {
@@ -162,6 +167,115 @@ const ConfidentialCounter = () => {
         }
     };
 
+    // Fungsi untuk decrypt nilai dari smart contract
+    const decryptCounterValue = async () => {
+        if (!contract) {
+            setStatus({ type: 'error', message: 'Contract not initialized' });
+            return;
+        }
+
+        setIsLoading(true);
+        setStatus(null);
+
+        try {
+            // Simulasi decrypt process
+            setStatus({
+                type: 'info',
+                message: 'Decrypting encrypted counter value...'
+            });
+
+            // Dalam FHEVM asli, ini akan memanggil TFHE.decrypt()
+            // const encryptedValue = await contract.getEncryptedCounter();
+            // const decrypted = await fhevm.decrypt(encryptedValue);
+
+            // Simulasi decrypt
+            const encryptedValue = await contract.getEncryptedCounter();
+            const decrypted = Number(encryptedValue);
+
+            setDecryptedValue(decrypted);
+            setStatus({
+                type: 'success',
+                message: `Successfully decrypted counter value: ${decrypted}`
+            });
+
+        } catch (error) {
+            console.error('❌ Failed to decrypt:', error);
+            setStatus({
+                type: 'error',
+                message: `Decryption failed: ${error.message}`
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // Fungsi untuk mendecrypt kontribusi individual user
+    const decryptIndividualContribution = async () => {
+        if (!contract) {
+            setStatus({ type: 'error', message: 'Contract not initialized' });
+            return;
+        }
+
+        setIsLoading(true);
+        setStatus(null);
+
+        try {
+            // Dapatkan alamat user yang sedang terhubung
+            const signer = await provider.getSigner();
+            const userAddress = await signer.getAddress();
+
+            setStatus({
+                type: 'info',
+                message: `Decrypting individual contribution for ${userAddress.substring(0, 10)}...`
+            });
+
+            // Dalam FHEVM asli, ini akan memanggil TFHE.decrypt() pada encrypted user contribution
+            // const encryptedContribution = await contract.getEncryptedUserContribution(userAddress);
+            // const decrypted = await fhevm.decrypt(encryptedContribution);
+
+            // Simulasi decrypt kontribusi individual
+            const contribution = await contract.getUserContribution(userAddress);
+            const decryptedContribution = Number(contribution);
+
+            setUserContribution({
+                address: userAddress,
+                contribution: decryptedContribution
+            });
+
+            setShowIndividualDecrypt(true);
+            setStatus({
+                type: 'success',
+                message: `Successfully decrypted your individual contribution: ${decryptedContribution}`
+            });
+
+        } catch (error) {
+            console.error('❌ Failed to decrypt individual contribution:', error);
+            setStatus({
+                type: 'error',
+                message: `Decryption failed: ${error.message}`
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // Fungsi untuk demo encrypt/decrypt workflow
+    const demonstrateEncryptDecrypt = async () => {
+        setShowDecryptDemo(true);
+        setStatus({
+            type: 'info',
+            message: 'Demonstrating FHEVM Encrypt/Decrypt workflow...'
+        });
+
+        // Simulasi workflow FHEVM
+        setTimeout(() => {
+            setStatus({
+                type: 'success',
+                message: 'FHEVM Workflow: Input → Encrypt → Compute → Decrypt → Result'
+            });
+        }, 2000);
+    };
+
     const resetCounter = async () => {
         if (!contract) return;
 
@@ -246,6 +360,30 @@ const ConfidentialCounter = () => {
                     >
                         {isLoading ? '🔄 Processing...' : '🎲 Add Random Value'}
                     </button>
+
+                    <button
+                        onClick={decryptCounterValue}
+                        disabled={isLoading}
+                        style={{ background: 'linear-gradient(45deg, #28a745, #20c997)' }}
+                    >
+                        {isLoading ? '🔄 Decrypting...' : '🔓 Decrypt Counter'}
+                    </button>
+
+                    <button
+                        onClick={demonstrateEncryptDecrypt}
+                        disabled={isLoading}
+                        style={{ background: 'linear-gradient(45deg, #6f42c1, #e83e8c)' }}
+                    >
+                        {isLoading ? '🔄 Demo...' : '🔐 FHEVM Demo'}
+                    </button>
+
+                    <button
+                        onClick={decryptIndividualContribution}
+                        disabled={isLoading}
+                        style={{ background: 'linear-gradient(45deg, #fd7e14, #ffc107)' }}
+                    >
+                        {isLoading ? '🔄 Decrypting...' : '👤 Decrypt My Input'}
+                    </button>
                 </div>
             </div>
 
@@ -294,13 +432,128 @@ const ConfidentialCounter = () => {
                 </div>
             )}
 
+            {decryptedValue !== null && (
+                <div className="decrypt-result" style={{
+                    marginTop: '20px',
+                    padding: '15px',
+                    backgroundColor: '#e8f5e8',
+                    borderRadius: '8px',
+                    border: '2px solid #28a745'
+                }}>
+                    <h4 style={{ color: '#28a745', margin: '0 0 10px 0' }}>
+                        🔓 Decrypted Counter Value
+                    </h4>
+                    <p style={{ fontSize: '24px', fontWeight: 'bold', margin: '0' }}>
+                        {decryptedValue}
+                    </p>
+                    <p style={{ fontSize: '14px', color: '#666', margin: '10px 0 0 0' }}>
+                        This value was decrypted from the encrypted counter on the blockchain
+                    </p>
+                </div>
+            )}
+
+            {showIndividualDecrypt && userContribution && (
+                <div className="individual-decrypt-result" style={{
+                    marginTop: '20px',
+                    padding: '20px',
+                    backgroundColor: '#fff3cd',
+                    borderRadius: '8px',
+                    border: '2px solid #fd7e14'
+                }}>
+                    <h4 style={{ color: '#fd7e14', margin: '0 0 15px 0' }}>
+                        👤 Individual Contribution Decrypted
+                    </h4>
+                    <div style={{ textAlign: 'left', maxWidth: '600px', margin: '0 auto' }}>
+                        <div style={{ marginBottom: '10px' }}>
+                            <strong style={{ color: '#fd7e14' }}>Your Address:</strong>
+                            <span style={{ color: '#333', fontFamily: 'monospace', fontSize: '14px' }}>
+                                {userContribution.address}
+                            </span>
+                        </div>
+                        <div style={{ marginBottom: '10px' }}>
+                            <strong style={{ color: '#fd7e14' }}>Your Total Contribution:</strong>
+                            <span style={{ color: '#333', fontSize: '24px', fontWeight: 'bold' }}>
+                                {userContribution.contribution}
+                            </span>
+                        </div>
+                        <div style={{
+                            padding: '10px',
+                            backgroundColor: '#f8f9fa',
+                            borderRadius: '5px',
+                            fontSize: '14px',
+                            color: '#666'
+                        }}>
+                            <strong>Note:</strong> In real FHEVM, individual contributions would remain encrypted and only you (the owner) could decrypt your own data. This is a demonstration of selective decryption.
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showDecryptDemo && (
+                <div className="fhevm-demo" style={{
+                    marginTop: '20px',
+                    padding: '20px',
+                    backgroundColor: '#f8f9fa',
+                    borderRadius: '8px',
+                    border: '2px solid #6f42c1'
+                }}>
+                    <h4 style={{ color: '#6f42c1', margin: '0 0 15px 0' }}>
+                        🔐 FHEVM Encrypt/Decrypt Workflow
+                    </h4>
+                    <div style={{ textAlign: 'left', maxWidth: '600px', margin: '0 auto' }}>
+                        <ol style={{ margin: '0', paddingLeft: '20px', color: '#333' }}>
+                            <li style={{ color: '#333', marginBottom: '8px' }}>
+                                <strong style={{ color: '#6f42c1' }}>Input:</strong>
+                                <span style={{ color: '#333' }}> User memasukkan angka (1-1000)</span>
+                            </li>
+                            <li style={{ color: '#333', marginBottom: '8px' }}>
+                                <strong style={{ color: '#6f42c1' }}>Encrypt:</strong>
+                                <span style={{ color: '#333' }}> Angka di-encrypt menggunakan FHEVM di frontend</span>
+                            </li>
+                            <li style={{ color: '#333', marginBottom: '8px' }}>
+                                <strong style={{ color: '#6f42c1' }}>Send:</strong>
+                                <span style={{ color: '#333' }}> Data encrypted dikirim ke smart contract</span>
+                            </li>
+                            <li style={{ color: '#333', marginBottom: '8px' }}>
+                                <strong style={{ color: '#6f42c1' }}>Verify:</strong>
+                                <span style={{ color: '#333' }}> Smart contract verifikasi encrypted input</span>
+                            </li>
+                            <li style={{ color: '#333', marginBottom: '8px' }}>
+                                <strong style={{ color: '#6f42c1' }}>Compute:</strong>
+                                <span style={{ color: '#333' }}> Operasi matematika pada data encrypted</span>
+                            </li>
+                            <li style={{ color: '#333', marginBottom: '8px' }}>
+                                <strong style={{ color: '#6f42c1' }}>Decrypt:</strong>
+                                <span style={{ color: '#333' }}> Hanya hasil total yang di-decrypt</span>
+                            </li>
+                            <li style={{ color: '#333', marginBottom: '8px' }}>
+                                <strong style={{ color: '#6f42c1' }}>Result:</strong>
+                                <span style={{ color: '#333' }}> Total sum menjadi public, individual tetap private</span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            )}
+
             <div className="how-it-works">
                 <h4>🔍 How It Works</h4>
-                <ol style={{ textAlign: 'left', maxWidth: '600px', margin: '0 auto' }}>
-                    <li><strong>Encryption:</strong> Your number is encrypted using FHEVM before sending to the blockchain</li>
-                    <li><strong>Computation:</strong> The smart contract adds your encrypted number to the encrypted counter</li>
-                    <li><strong>Decryption:</strong> Only the total sum is decrypted and made public</li>
-                    <li><strong>Privacy:</strong> Your individual contribution remains completely private</li>
+                <ol style={{ textAlign: 'left', maxWidth: '600px', margin: '0 auto', color: '#333' }}>
+                    <li style={{ color: '#333', marginBottom: '8px' }}>
+                        <strong style={{ color: '#007bff' }}>Encryption:</strong>
+                        <span style={{ color: '#333' }}> Your number is encrypted using FHEVM before sending to the blockchain</span>
+                    </li>
+                    <li style={{ color: '#333', marginBottom: '8px' }}>
+                        <strong style={{ color: '#007bff' }}>Computation:</strong>
+                        <span style={{ color: '#333' }}> The smart contract adds your encrypted number to the encrypted counter</span>
+                    </li>
+                    <li style={{ color: '#333', marginBottom: '8px' }}>
+                        <strong style={{ color: '#007bff' }}>Decryption:</strong>
+                        <span style={{ color: '#333' }}> Only the total sum is decrypted and made public</span>
+                    </li>
+                    <li style={{ color: '#333', marginBottom: '8px' }}>
+                        <strong style={{ color: '#007bff' }}>Privacy:</strong>
+                        <span style={{ color: '#333' }}> Your individual contribution remains completely private</span>
+                    </li>
                 </ol>
             </div>
         </div>

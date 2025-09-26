@@ -16,6 +16,8 @@ This project demonstrates how to build a **Confidential Counter** - a simple but
 - **🛡️ Privacy by Design**: Individual contributions remain private, only totals are public
 - **🎲 Random Generation**: Add random encrypted values to demonstrate FHEVM capabilities
 - **📊 Advanced Operations**: Threshold checking, max value comparison, and more
+- **🔓 Individual Decryption**: Decrypt your own contributions while keeping others private
+- **🔐 FHEVM Demo**: Interactive workflow demonstration of encrypt/decrypt process
 
 ## 🚀 Quick Start
 
@@ -60,7 +62,8 @@ cd frontend && npm start
 ```
 hello-fhevm-tutorial/
 ├── contracts/
-│   └── ConfidentialCounter.sol    # FHEVM smart contract
+│   ├── ConfidentialCounter.sol    # FHEVM smart contract
+│   └── RealFhevmCounter.sol       # Real FHEVM implementation example
 ├── scripts/
 │   └── deploy.js                  # Deployment script
 ├── frontend/
@@ -68,13 +71,15 @@ hello-fhevm-tutorial/
 │   │   ├── components/
 │   │   │   ├── FhevmProvider.js   # FHEVM context provider
 │   │   │   ├── WalletConnection.js # MetaMask integration
-│   │   │   └── ConfidentialCounter.js # Main dApp component
+│   │   │   ├── ConfidentialCounter.js # Main dApp component
+│   │   │   └── RealFhevmExample.js # Real FHEVM example component
 │   │   ├── App.js                 # Main React app
 │   │   └── contract-info.json     # Contract deployment info
 │   └── package.json
 ├── hardhat.config.js              # Hardhat configuration
 ├── package.json                   # Project dependencies
 ├── TUTORIAL.md                    # Complete tutorial guide
+├── INDIVIDUAL_DECRYPT_GUIDE.md   # Individual decryption guide
 └── README.md                      # This file
 ```
 
@@ -130,6 +135,9 @@ contract ConfidentialCounter {
 - **🎲 Random Value Button**: Add random encrypted values with one click
 - **📊 Advanced Operations**: Threshold checking and max value comparison
 - **🎯 Multiple Interaction Modes**: Number input, random generation, and reset
+- **🔓 Decrypt Counter**: Decrypt and view the total counter value
+- **👤 Decrypt My Input**: Decrypt your individual contributions
+- **🔐 FHEVM Demo**: Interactive demonstration of encrypt/decrypt workflow
 
 ## 🧪 Testing
 
@@ -147,16 +155,24 @@ contract ConfidentialCounter {
    - Verify user contributions
    - Test reset functionality
 
-3. **Privacy Verification**
+3. **Decryption Features**
+   - Test counter decryption
+   - Test individual contribution decryption
+   - Verify selective decryption works
+   - Test FHEVM demo workflow
+
+4. **Privacy Verification**
    - Check Sepolia Etherscan
    - Confirm transaction details
    - Verify individual contributions remain private
+   - Test access control for decryption
 
-4. **Multiple Users**
+5. **Multiple Users**
    - Test with different accounts
    - Add various numbers
    - Observe privacy preservation
    - Test random value generation
+   - Verify individual decryption works per user
 
 ### Running Tests
 
