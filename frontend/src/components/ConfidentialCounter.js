@@ -18,7 +18,7 @@ const ConfidentialCounter = () => {
     const [showIndividualDecrypt, setShowIndividualDecrypt] = useState(false);
 
     // Contract ABI - FHEVM-inspired version for the frontend
-    const contractABI = [
+    const contractABI = React.useMemo(() => [
         "function addToCounter(uint32 value) external",
         "function addRandomToCounter() external",
         "function getPublicTotal() external view returns (uint32)",
@@ -33,7 +33,7 @@ const ConfidentialCounter = () => {
         "event CounterReset(address indexed owner)",
         "event RandomValueAdded(address indexed user, uint32 publicTotal)",
         "event ThresholdChecked(address indexed user, uint32 threshold, bool result)"
-    ];
+    ], []);
 
     useEffect(() => {
         const initializeContract = async () => {

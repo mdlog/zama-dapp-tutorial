@@ -23,6 +23,8 @@ We welcome suggestions for:
 - **UI/UX enhancements**: Better user interface, improved user experience, additional interaction modes
 - **Documentation**: Additional documentation, better examples, clearer explanations
 - **Advanced features**: More complex FHEVM examples and operations
+- **Decryption features**: Enhanced individual decryption capabilities
+- **Privacy features**: Improved privacy-preserving functionality
 
 ### Submitting Code Changes
 
@@ -83,6 +85,8 @@ We welcome suggestions for:
 - **Error handling**: Better error messages and user feedback
 - **Mobile responsiveness**: Ensure the frontend works well on mobile devices
 - **Button group functionality**: Ensure all interaction modes work properly
+- **Decryption features**: Individual decryption functionality and privacy features
+- **FHEVM demo**: Interactive workflow demonstration improvements
 
 ### Medium Priority
 
@@ -132,9 +136,10 @@ npm test -- --coverage
 2. **Test the frontend** with different scenarios
 3. **Test all interaction modes**: Number input, random generation, reset functionality
 4. **Test FHEVM operations**: Threshold checking, max value comparison
-5. **Verify privacy** by checking Sepolia Etherscan
-6. **Test with multiple accounts** to ensure privacy
-7. **Test button groups** and responsive design
+5. **Test decryption features**: Individual decryption, counter decryption, FHEVM demo
+6. **Verify privacy** by checking Sepolia Etherscan
+7. **Test with multiple accounts** to ensure privacy and selective decryption
+8. **Test button groups** and responsive design
 
 ## 📝 Pull Request Guidelines
 
